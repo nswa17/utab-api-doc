@@ -6,11 +6,15 @@ This document describes Web API interface for utab.
 
 ## API Version
 
-This document is for **utab Version 1.0.0**
+This document is for **utab API Version 1.0.0**
 
 ## Base URL
 
+URL must start with `<protocol>://<host>/<version>` like:
+
 		http://api.utab.com/v1
+
+Note: currently, no one implements and publicates this api.
 
 # Errors
 
@@ -104,7 +108,8 @@ This Request will replace `id(obj)` field by `obj` and return following Response
 				"venue": <Venue Object>
 		}
 
-
+Note that these type definitions doesn't show how to implement these data as internal object.
+You can/should implement Speaker Object and Adjudicator Object to inherit the same base-class, named `Person` for example.
 
 ### URI String
 
@@ -177,7 +182,6 @@ Following example means Tournament Object should implements `DELETE` method.
 		Delete /tournaments/{Tournament.id}
 
 This is the same as:
-* Required fields are not fullfilled
 
 		Request
 		
@@ -438,9 +442,37 @@ Delete an item.
 
 + List /{Tournament.id}/rounds/{Round.id}/available_venues
 + Create /{Tournament.id}/rounds/{Round.id}/available_venues
-+ Get /{Tournament.id}/rounds/{Round.id}/{Round.id}/available_venues/{Venue.id} and /{Tournament.id}/{Round.id}
-+ Update /{Tournament.id}/rounds/{Round.id} and /{Tournament.id}/{Round.id}
-+ Delete /{Tournament.id}/rounds/{Round.id} and /{Tournament.id}/{Round.id}
++ Delete /{Tournament.id}/rounds/{Round.id}/available_venues/{Venue.id} and /{Tournament.id}/{Round.id}/available_venues/{Venue.id}
+
+# Available Team Data
+
+## Available Team Object
+
+		{
+			"team_id": "Sample%20Team%201",	/* <URI String, id(Team Object)> */
+			"available": true	/* <Boolean, required> */
+		}
+
+## Methods
+
++ List /{Tournament.id}/rounds/{Round.id}/available_teams
++ Create /{Tournament.id}/rounds/{Round.id}/available_teams
++ Delete /{Tournament.id}/rounds/{Round.id}/available_teams/{Team.id} and /{Tournament.id}/{Round.id}/available_teams/{Team.id}
+
+# Available Adjudicator Data
+
+## Available Adjudicator Object
+
+		{
+			"adjudicator_id": "Sample%20Adjudicator%201",	/* <URI String, id(Adjudicator Object)> */
+			"available": true	/* <Boolean, required> */
+		}
+
+## Methods
+
++ List /{Tournament.id}/rounds/{Round.id}/available_adjudicators
++ Create /{Tournament.id}/rounds/{Round.id}/available_adjudicators
++ Delete /{Tournament.id}/rounds/{Round.id}/available_adjudicators/{Adjudicator.id} and /{Tournament.id}/{Round.id}/available_adjudicators/{Adjudicator.id}
 
 
 
