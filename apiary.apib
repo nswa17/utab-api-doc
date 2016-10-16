@@ -7,7 +7,7 @@ By which you can operate UTab  (Todo: backup, import)
 
 Version: v0.1
 
-speaker -> team
+tournament -> institution -> speaker -> team -> adjudicator -> venue
 
 ## Verification [/v0.1/{tournament_name}/verify]
 
@@ -61,9 +61,14 @@ speaker -> team
                 "tournament_num": 1,
                 "tournaments": [
                     {
+                        "url": "/v0.1/tournaments/0",
+                        "id": 0,
                         "name": "test%20tournament",
-                        "num_of_rounds": 3,
-                        "style": "PDA"
+                        "host": "Japan Parliamentary Debate Association",
+                        "pre_rounds": 3,
+                        "break_rounds": 1,
+                        "style": "PDA",
+                        "current_round": 0  /* not started yet */
                     }
                 ]
             }
@@ -75,7 +80,9 @@ speaker -> team
         
         {
             "name": "test%20tournament",
-            "num_of_rounds": 3,
+            "host": "Japan Parliamentary Debate Association",
+            "pre_rounds": 3,
+            "break_rounds": 1,
             "style": "PDA"
         }
         
@@ -83,12 +90,15 @@ speaker -> team
 
         {
             "errors": null
-            "data":
-            {
+            "data": {
+                "url": "/v0.1/tournaments/0",
                 "id": 0,
                 "name": "test%20tournament",
-                "num_of_rounds": 3,
-                "style": "PDA"
+                "host": "Japan Parliamentary Debate Association",
+                "pre_rounds": 3,
+                "break_rounds": 1,
+                "style": "PDA",
+                "current_round": 0  /* not started yet */
             }
         }
         
@@ -105,12 +115,15 @@ speaker -> team
 
         {
             "errors": null
-            "data":
-            {
+            "data": {
+                "url": "/v0.1/tournaments/0",
                 "id": 0,
                 "name": "test%20tournament",
-                "num_of_rounds": 3,
-                "style": "PDA"
+                "host": "Japan Parliamentary Debate Association",
+                "pre_rounds": 3,
+                "break_rounds": 1,
+                "style": "PDA",
+                "current_round": 0  /* not started yet */
             }
         }
         
@@ -124,7 +137,9 @@ speaker -> team
             "error": null,
             "data": [
                 {
-                    "style_name": "PDA",
+                    "url": "/v0.1/styles/0",
+                    "id": 0,
+                    "name": "PDA",
                     "debater_num_per_team": 4,
                     "team_num": 2,
                     "score_weights": [1,1,0.5],
@@ -139,11 +154,11 @@ speaker -> team
 + Request (application/json)
 
         {
-            "style_name": "PDA",
+            "name": "PDA",
             "debater_num_per_team": 4,
             "team_num": 2,
-            "score_weights": score_weights,
-            "replies": replies, /* list of Integers. 1 if his/her role is reply */
+            "score_weights": [1,1,0.5],
+            "replies": [2,3], /* list of Integers. 1 if his/her role is reply */
             "num_of_replies_per_team": 1
         }
         
@@ -152,39 +167,41 @@ speaker -> team
         {
             "error": null,
             "data": {
-        {
-            "style_name": "PDA",
-            "debater_num_per_team": 4,
-            "team_num": 2,
-            "score_weights": score_weights,
-            "replies": replies, /* list of Integers. 1 if his/her role is reply */
-            "num_of_replies_per_team": 1
-        }
+                "url": "/v0.1/styles/0",
+                "id": 0,
+                "name": "PDA",
+                "debater_num_per_team": 4,
+                "team_num": 2,
+                "score_weights": [1,1,0.5],
+                "replies": [2,3], /* list of Integers. 1 if his/her role is reply */
+                "num_of_replies_per_team": 1
             }
         }
         
-## Specific Tournament [/v0.1/{tournament_name}]
+## Specific Tournament [/v0.1/tournaments/{tournament_id}]
 
 ### Fetch Data [GET]
 
++ Parameters
+
+    + tournament_id (number) - tournament id
+
 + Request (application/json)
 
-        {
-        }
-        
 + Response 200 (application/json)
 
         {
             "error": null,
-            "data":
-            {
-                "id": id,
-                "name": name,
-                "style": style,
-                "host": host,
-                "pre_rounds": pre_rounds,
-                "break_rounds": break_rounds,
-                "current_round": current_round
+            "data": {
+                "url": "/v0.1/tournaments/0",
+                "id": 0,
+                "name": "test%20tournament",
+                "host": "Japan Parliamentary Debate Association",
+                "pre_rounds": 3,
+                "break_rounds": 1,
+                "style": "PDA",
+                "current_round": 0  /* not started yet */
+            }
         }
 
 ### Revise Data [PATCH]
@@ -195,22 +212,35 @@ speaker -> team
             "error": null,
             "data":
             {
-                "id": id,
-                "name": name,
-                "style": style,
-                "host": host,
-                "pre_rounds": pre_rounds,
-                "break_rounds": break_rounds
+                "id": 0,
+                "name": "test%20tournament" /* id and changed properties only */
+            }
         }
 
 + Response 200 (application/json)
 
         {
+            "error": null,
+            "data": {
+                "url": "/v0.1/tournaments/0",
+                "id": 0,
+                "name": "test%20tournament",
+                "host": "Japan Parliamentary Debate Association",
+                "pre_rounds": 3,
+                "break_rounds": 1,
+                "style": "PDA",
+                "current_round": 0  /* not started yet */
+            }
         }
         
-## Round [/v0.1/{tournament_name}/{round_num}]
+## Round [/v0.1/tournaments/{tournament_id}/rounds/{round_id}]
 
 ### Get Round Information [GET]
+
++ Parameters
+
+    + tournament_id (number) - tournament id
+    + round_id (number) - round id
 
 + Response 200 (application/json)
 
