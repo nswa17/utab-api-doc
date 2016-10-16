@@ -9,15 +9,28 @@ Infrastructure-level errors should be represented by HTTP Status Code.
 
 Application-level errors should return Error Object in error property of response.
 
+```
+{
+    "error": {
+        {
+            "statusCode": 0,
+            "statusText": "Tournament Not Found",
+            "message": "No such tournament name: 'test tournament'",
+        }
+    },
+    "data": null
+}
+```
+
 ### Importing Data
 
 #### [0] Tournament Not Found
 
 ```
 {
-  "statusCode": 0,
-  "statusText": "Tournament Not Found",
-  "message": "No such tournament name: 'test tournament'",
+    "statusCode": 0,
+    "statusText": "Tournament Not Found",
+    "message": "No such tournament name: 'test tournament'",
 }
 ```
 
