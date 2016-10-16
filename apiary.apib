@@ -133,7 +133,7 @@ Version: v0.1
         {
         }
         
-## Specific Tournament [/{tournament_name}]
+## Specific Tournament [/v0.1/{tournament_name}]
 
 ### Fetch Data [GET]
 
@@ -178,7 +178,7 @@ Version: v0.1
         {
         }
         
-## Round [/{tournament_name}/{round_num}]
+## Round [/v0.1/{tournament_name}/{round_num}]
 
 ### Get Round Information [GET]
 
@@ -220,7 +220,7 @@ Version: v0.1
             }
         ]
         
-## Filters [/{tournament_name}/{round_num}/filters]
+## Filters [/v0.1/{tournament_name}/{round_num}/filters]
 
 ### Get Default Filters [GET]
 
@@ -247,7 +247,7 @@ Version: v0.1
             }
         }
 
-## All Candidate Matchups [/{tournament_name}/{round_num}/control/matchups]
+## All Candidate Matchups [/v0.1/{tournament_name}/{round_num}/control/matchups]
 
 + Parameters
     + tournament_name (required, string, `test`)
@@ -260,7 +260,7 @@ Version: v0.1
         {
         }
         
-## Selecting Matchups [/{tournament_name}/{round_num}/control/matchups/{matchup_id}]
+## Selecting Matchups [/v0.1/{tournament_name}/{round_num}/control/matchups/{matchup_id}]
 
 ### Get Specified Candidate Matchup [GET]
     
@@ -297,7 +297,7 @@ Version: v0.1
         {
         }
         
-## All Candidate Allocations [/{tournament_name}/{round_num}/control/allocations]
+## All Candidate Allocations [/v0.1/{tournament_name}/{round_num}/control/allocations]
 
 ### Get All Candidate Allocations [GET]
 
@@ -306,7 +306,7 @@ Version: v0.1
         {
         }
         
-## Selecting Allocations [/{tournament_name}/{round_num}/control/allocations/{allocation_id}]
+## Selecting Allocations [/v0.1/{tournament_name}/{round_num}/control/allocations/{allocation_id}]
 
 ### Get Specified Candidate Allocation [GET]
 
@@ -339,7 +339,7 @@ Version: v0.1
         {
         }
 
-## Allocating Panels [/{tournament_name}/{round_num}/control/panels]
+## Allocating Panels [/v0.1/{tournament_name}/{round_num}/control/panels]
 
 ### Get Candidate Panel Allocation [GET]
 
@@ -372,7 +372,7 @@ Version: v0.1
         {
         }
 
-## Selecting Venues [/{tournament_name}/{round_num}/control/venues]
+## Selecting Venues [/v0.1/{tournament_name}/{round_num}/control/venues]
 
 ### Get Venue Allocation [GET]
 
@@ -405,7 +405,7 @@ Version: v0.1
         {
         }
         
-## Adjudicators [/{tournament_name}/adjudicators]
+## Adjudicators [/v0.1/{tournament_name}/adjudicators]
 
 ### List All Adjudicators [GET]
 
@@ -439,7 +439,7 @@ Version: v0.1
         {
         }
 
-## Specific Adjudicator [/{tournament_name}/adjudicators/{adjudicator_id}]
+## Specific Adjudicator [/v0.1/{tournament_name}/adjudicators/{adjudicator_id}]
 
 ### Get Specific Adjudicator [GET]
 
@@ -467,7 +467,7 @@ Version: v0.1
             "hello": adjudicator_id
         }
         
-## Teams [/{tournament_name}/teams]
+## Teams [/v0.1/{tournament_name}/teams]
 
 ### List All Teams [GET]
 
@@ -487,7 +487,7 @@ Version: v0.1
 
         "Thank you"
         
-## Specific Team [/{tournament_name}/teams/{team_id}]
+## Specific Team [/v0.1/{tournament_name}/teams/{team_id}]
 
 ### View Specific Team [GET]
 
@@ -549,7 +549,7 @@ Version: v0.1
             "hello": team_id
         }
         
-## Venues [/{tournament_name}/venues]
+## Venues [/v0.1/{tournament_name}/venues]
 
 ### List All Venues [GET]
 
@@ -587,7 +587,7 @@ Version: v0.1
         {
         }
 
-## Specific Venue [/{tournament_name}/venues/{venue_id}]
+## Specific Venue [/v0.1/{tournament_name}/venues/{venue_id}]
 
 ### Get Specific Venue [GET]
 
@@ -618,7 +618,7 @@ Version: v0.1
             "hello": adjudicator_id
         }
         
-## Institutions [/{tournament_name}/institutions]
+## Institutions [/v0.1/{tournament_name}/institutions]
 
 ### List All Institutions [GET]
 
@@ -651,7 +651,7 @@ Version: v0.1
         {
         }
        
-## Specific Institution [/{tournament_name}/institutions/{institution_id}]
+## Specific Institution [/v0.1/{tournament_name}/institutions/{institution_id}]
   
 ### Get Institution's Information [GET]
 
@@ -677,7 +677,7 @@ Version: v0.1
         {
         }
         
-## Team Results [/{tournament_name}/{round_num}/results/teams]
+## Team Results [/v0.1/{tournament_name}/{round_num}/results/teams]
 
 ### List Team Results [GET]
 
@@ -687,7 +687,7 @@ Version: v0.1
             "hi":21
         }
         
-## Speaker Results [/{tournament_name}/{round_num}/results/speakers]
+## Speaker Results [/v0.1/{tournament_name}/{round_num}/results/speakers]
 
 ### List Speaker Results [GET]
 
@@ -727,7 +727,7 @@ Version: v0.1
         {
         }
         
-## Adjudicator Results [/{tournament_name}/{round_num}/results/adjudicators]
+## Adjudicator Results [/v0.1/{tournament_name}/{round_num}/results/adjudicators]
 
 ### List Adjudicator Results [GET]
 
@@ -759,6 +759,6 @@ Version: v0.1
         {
         }
         
-## Historical Team Results [/{tournament_name}/results/adjudicators]
+## Historical Team Results [/v0.1/{tournament_name}/results/adjudicators]
         
-## Historical Adjudicator Results [/{tournament_name}/results/teams]
+## Historical Adjudicator Results [/v0.1/{tournament_name}/results/teams]
