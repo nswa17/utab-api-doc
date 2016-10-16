@@ -7,6 +7,8 @@ By which you can operate UTab  (Todo: backup, import)
 
 Version: v0.1
 
+speaker -> team
+
 ## Verification [/v0.1/{tournament_name}/verify]
 
 + Parameters
@@ -57,7 +59,13 @@ Version: v0.1
             "data": 
             {
                 "tournament_num": 1,
-                "tournament_names": ["test%20tournament"]
+                "tournaments": [
+                    {
+                        "name": "test%20tournament",
+                        "num_of_rounds": 3,
+                        "style": "PDA"
+                    }
+                ]
             }
         }
 
@@ -66,8 +74,9 @@ Version: v0.1
 + Request (application/json)
         
         {
-            "tournament_name": "test%20tournament",
-            "tournament_style": "PDA"
+            "name": "test%20tournament",
+            "num_of_rounds": 3,
+            "style": "PDA"
         }
         
 + Response 200 (application/json)
@@ -76,8 +85,10 @@ Version: v0.1
             "errors": null
             "data":
             {
-                "tournament_name": "test%20tournament",
-                "tournament_style": "PDA"
+                "id": 0,
+                "name": "test%20tournament",
+                "num_of_rounds": 3,
+                "style": "PDA"
             }
         }
         
@@ -86,18 +97,26 @@ Version: v0.1
 + Request (application/json)
         
         {
-            "tournament_name": "test%20tournament"
+            "id": 0,
+            "name": "test%20tournament"
         }
         
 + Response 200 (application/json)
 
         {
-            "tournament_name": "test%20tournament"
+            "errors": null
+            "data":
+            {
+                "id": 0,
+                "name": "test%20tournament",
+                "num_of_rounds": 3,
+                "style": "PDA"
+            }
         }
         
 ## Available Styles [/v0.1/styles]
 
-### List Available Styles [GET]
+### List All Available Styles [GET]
 
 + Response 200 (application/json)
 
@@ -108,8 +127,8 @@ Version: v0.1
                     "style_name": "PDA",
                     "debater_num_per_team": 4,
                     "team_num": 2,
-                    "score_weights": score_weights,
-                    "replies": replies, /* list of Integers. 1 if his/her role is reply */
+                    "score_weights": [1,1,0.5],
+                    "replies": [2,3], /* list of Integers. 1 if his/her role is reply */
                     "num_of_replies_per_team": 1
                 }
             ]
@@ -120,17 +139,28 @@ Version: v0.1
 + Request (application/json)
 
         {
-            "style_name": style_name,
-            "debater_num_per_team": debater_num_per_team,
-            "team_num": team_num,
+            "style_name": "PDA",
+            "debater_num_per_team": 4,
+            "team_num": 2,
             "score_weights": score_weights,
             "replies": replies, /* list of Integers. 1 if his/her role is reply */
-            "num_of_replies_per_team": num_of_replies_per_team
+            "num_of_replies_per_team": 1
         }
         
 + Response 200 (application/json)
 
         {
+            "error": null,
+            "data": {
+        {
+            "style_name": "PDA",
+            "debater_num_per_team": 4,
+            "team_num": 2,
+            "score_weights": score_weights,
+            "replies": replies, /* list of Integers. 1 if his/her role is reply */
+            "num_of_replies_per_team": 1
+        }
+            }
         }
         
 ## Specific Tournament [/v0.1/{tournament_name}]
