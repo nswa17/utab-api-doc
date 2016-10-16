@@ -1,0 +1,764 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# UTabAPIs
+
+By which you can operate UTab  (Todo: backup, import)
+
+Version: v0.1
+
+## Verification [/v0.1/{tournament_name}/verify]
+
++ Parameters
+    + tournament_name (required, string, `test`)
+    
+### Send Verification Code [PUT]
+
++ Request (application/json)
+
+        {
+            "errors": null,
+            "data":
+            {
+                "name": name,
+                "pass": pass
+            }
+        }
+        
++ Response 200 (application/json)
+        
+        {
+            "errors": null,
+            "user_code": user_code /* Random Hash given by Server, neccesary for using APIs*/
+        }
+
++ Response 403 (application/json)
+    
+        {
+            "errors": [
+                {
+                    "statusCode": status_code,    /*ex)0 the error type code which is unique to each errors <Integer, required> */
+                    "statusText": "status_text",  /*ex)Unauthorized one-line description of the error type <String, required> */
+                    "message": message,    /*ex)"We are sorry, but your id or password is incorrect." Supporting message usually shown to end-users <String, optional> */
+                    "from": from /*ex)"verification" where the error occurs <String, optional> */
+                }
+            ],
+            "data": null
+        }
+        
+## Tournaments [/v0.1/tournaments]
+
+### List All Tournaments [GET]
+
++ Response 200 (application/json)
+
+        {
+            "errors": null,
+            "data": 
+            {
+                "tournament_num": 1,
+                "tournament_names": ["test%20tournament"]
+            }
+        }
+
+### New Tournament [POST]
+
++ Request (application/json)
+        
+        {
+            "tournament_name": "test%20tournament",
+            "tournament_style": "PDA"
+        }
+        
++ Response 200 (application/json)
+
+        {
+            "errors": null
+            "data":
+            {
+                "tournament_name": "test%20tournament",
+                "tournament_style": "PDA"
+            }
+        }
+        
+### Delete Tournament [DELETE]
+
++ Request (application/json)
+        
+        {
+            "tournament_name": "test%20tournament"
+        }
+        
++ Response 200 (application/json)
+
+        {
+            "tournament_name": "test%20tournament"
+        }
+        
+## Available Styles [/v0.1/styles]
+
+### List Available Styles [GET]
+
++ Response 200 (application/json)
+
+        {
+            "error": null,
+            "data": [
+                {
+                    "style_name": "PDA",
+                    "debater_num_per_team": 4,
+                    "team_num": 2,
+                    "score_weights": score_weights,
+                    "replies": replies, /* list of Integers. 1 if his/her role is reply */
+                    "num_of_replies_per_team": 1
+                }
+            ]
+        }
+
+### Add An User Defined Style [PUT]
+
++ Request (application/json)
+
+        {
+            "style_name": style_name,
+            "debater_num_per_team": debater_num_per_team,
+            "team_num": team_num,
+            "score_weights": score_weights,
+            "replies": replies, /* list of Integers. 1 if his/her role is reply */
+            "num_of_replies_per_team": num_of_replies_per_team
+        }
+        
++ Response 200 (application/json)
+
+        {
+        }
+        
+## Specific Tournament [/{tournament_name}]
+
+### Fetch Data [GET]
+
++ Request (application/json)
+
+        {
+        }
+        
++ Response 200 (application/json)
+
+        {
+            "error": null,
+            "data":
+            {
+                "id": id,
+                "name": name,
+                "style": style,
+                "host": host,
+                "pre_rounds": pre_rounds,
+                "break_rounds": break_rounds,
+                "current_round": current_round
+        }
+
+### Revise Data [PATCH]
+        
++ Request (application/json)
+
+        {
+            "error": null,
+            "data":
+            {
+                "id": id,
+                "name": name,
+                "style": style,
+                "host": host,
+                "pre_rounds": pre_rounds,
+                "break_rounds": break_rounds
+        }
+
++ Response 200 (application/json)
+
+        {
+        }
+        
+## Round [/{tournament_name}/{round_num}]
+
+### Get Round Information [GET]
+
++ Response 200 (application/json)
+
+        {
+            
+        }
+        
+### Send Round Config [PUT]
+
++ Request (application/json)
+
+        {
+            constants
+            filters
+        }
+        
++ Response 200 (application/json)
+
+        {
+        }
+        
+### Proceed Round [POST]
+
++ Request (application/json)
+        
+        {   
+            "proceed": proceed /*Boolean*/
+            "force_proceed": force /*Boolean. With false, you cannot proceed to next round until all results are collected*/
+        }
+        
++ Response 200 (application/json)
+
+        {
+            "error": null,
+            "data": 
+            {
+            }
+        ]
+        
+## Filters [/{tournament_name}/{round_num}/filters]
+
+### Get Default Filters [GET]
+
++ Response 200 (application/json)
+
+        {
+            "error": null,
+            "filters":
+            {
+            }
+        }
+
+### Send Filters [PUT]
+
++ Request (application/json)
+
+
++ Response 200 (application/json)
+
+        {
+            "error": null,
+            "filters":
+            {
+            }
+        }
+
+## All Candidate Matchups [/{tournament_name}/{round_num}/control/matchups]
+
++ Parameters
+    + tournament_name (required, string, `test`)
+    + round_num (required, number, `1`)
+    
+### Get All Candidate Matchups [GET]
+    
++ Response 200 (application/json)
+
+        {
+        }
+        
+## Selecting Matchups [/{tournament_name}/{round_num}/control/matchups/{matchup_id}]
+
+### Get Specified Candidate Matchup [GET]
+    
++ Response 200 (application/json)
+
+        {
+            "error": null,
+            "data":
+            [[team_id1, team_id2]]
+        }
+        
+
+### Exchange Teams [PATCH]
+
++ Request (application/json)
+        
+        {
+        }
+        
++ Response 200 (application/json)
+
+        {
+        }
+        
+### Confirm Arranged Matchup [POST]
+
++ Request (application/json)
+        
+        {
+        }
+        
++ Response 200 (application/json)
+
+        {
+        }
+        
+## All Candidate Allocations [/{tournament_name}/{round_num}/control/allocations]
+
+### Get All Candidate Allocations [GET]
+
++ Response 200 (application/json)
+
+        {
+        }
+        
+## Selecting Allocations [/{tournament_name}/{round_num}/control/allocations/{allocation_id}]
+
+### Get Specified Candidate Allocation [GET]
+
++ Response 200 (application/json)
+
+        {
+        }
+
+### Exchange Adjudicators [PATCH]
+
++ Request (application/json)
+        
+        {
+        }
+
++ Response 200 (application/json)
+
+        {
+        }
+
+### Select Allocation [POST]
+
++ Request (application/json)
+        
+        {
+        }
+
++ Response 200 (application/json)
+
+        {
+        }
+
+## Allocating Panels [/{tournament_name}/{round_num}/control/panels]
+
+### Get Candidate Panel Allocation [GET]
+
++ Response 200 (application/json)
+
+        {
+        }
+
+### Exchange Adjudicators [PATCH]
+
++ Request (application/json)
+        
+        {
+        }
+
++ Response 200 (application/json)
+
+        {
+        }
+
+### Approve Panel Allocation [POST]
+
++ Request (application/json)
+        
+        {
+        }
+
++ Response 200 (application/json)
+
+        {
+        }
+
+## Selecting Venues [/{tournament_name}/{round_num}/control/venues]
+
+### Get Venue Allocation [GET]
+
++ Response 200 (application/json)
+
+        {
+        }
+
+### Exchange Venues [PATCH]
+
++ Request (application/json)
+        
+        {
+        }
+
++ Response 200 (application/json)
+
+        {
+        }
+
+### Approve Venue Allocation [POST]
+
++ Request (application/json)
+        
+        {
+        }
+
++ Response 200 (application/json)
+
+        {
+        }
+        
+## Adjudicators [/{tournament_name}/adjudicators]
+
+### List All Adjudicators [GET]
+
++ Response 200 (application/json)
+
+        {
+            "hello": adjudicator_id
+        }
+
+### Add An Adjudicator [POST]
+
++ Request (application/json)
+        
+        {
+        }
+        
++ Response 200 (application/json)
+    
+        {
+        }
+        
+### Delete An Adjudicator [DELETE]
+
++ Request (application/json)
+        
+        {
+        }
+        
++ Response 200 (application/json)
+    
+        {
+        }
+
+## Specific Adjudicator [/{tournament_name}/adjudicators/{adjudicator_id}]
+
+### Get Specific Adjudicator [GET]
+
++ Response 200 (application/json)
+
+        {
+            "id": adjudicator_id,
+            "name": adjudicator_name,
+            "available": adjudicator_available,
+            "instutituions": [institution],
+            "conflicts": [team],
+            "url": adjudicator_url
+        }
+
+### Modify Adjudicator's Status [PUT]
+
++ Request (application/json)
+        
+        {
+        }
+
++ Response 200 (application/json)
+
+        {
+            "hello": adjudicator_id
+        }
+        
+## Teams [/{tournament_name}/teams]
+
+### List All Teams [GET]
+
++ Response 200 (application/json)
+
+        {
+        }
+
+### Add A Team [POST]
+
++ Request (application/json)
+
+        {
+        }
+
++ Response 200 (text/plain)
+
+        "Thank you"
+        
+## Specific Team [/{tournament_name}/teams/{team_id}]
+
+### View Specific Team [GET]
+
++ Response 200 (application/json)
+
+        {
+            "id": id,
+            "name": team_name,
+            "speakers": [speaker],
+            "available": team_available,
+            "url": team_url
+        }
+        
+### Delete Team [DELETE]
+
++ Request (application/json)
+
+        {
+            "question": "Favourite programming language?",
+            "choices": [
+                "Swift",
+                "Python",
+                "Objective-C",
+                "Ruby"
+            ],
+            "test": [
+                "hi",
+                "hello"
+            ]
+        }
+
++ Response 200 (application/json)
+
+        {
+            "hello": team_id
+        }
+        
+### Edit Team [PATCH]
+        
++ Request (application/json)
+
+        {
+            "question": "Favourite programming language?",
+            "choices": [
+                "Swift",
+                "Python",
+                "Objective-C",
+                "Ruby"
+            ],
+            "test": [
+                "hi",
+                "hello"
+            ]
+        }
+
++ Response 200 (application/json)
+
+        {
+            "hello": team_id
+        }
+        
+## Venues [/{tournament_name}/venues]
+
+### List All Venues [GET]
+
++ Response 200 (application/json)
+
+        {
+            "error": null,
+            "data":
+            {
+                [venue]
+            }
+        }
+
+### Add A Venue [PUT]
+
++ Request (application/json)
+        
+        {
+        }
+        
++ Response 200 (application/json)
+    
+        {
+        }
+        
+### Delete A Venue [DELETE]
+
++ Request (application/json)
+        
+        {
+        }
+        
++ Response 200 (application/json)
+    
+        {
+        }
+
+## Specific Venue [/{tournament_name}/venues/{venue_id}]
+
+### Get Specific Venue [GET]
+
++ Response 200 (application/json)
+
+        {
+            "error": null,
+            "data":
+            {
+                "id": venue_id,
+                "name": venue_name,
+                "available": available,
+                "priority": priority,
+                "url": venue_url
+            }
+        }
+
+### Modify Venue's Status [PUT]
+
++ Request (application/json)
+        
+        {
+        }
+
++ Response 200 (application/json)
+
+        {
+            "hello": adjudicator_id
+        }
+        
+## Institutions [/{tournament_name}/institutions]
+
+### List All Institutions [GET]
+
++ Response 200 (application/json)
+        
+        {
+        }
+        
+### Add An Institution [POST]
+
++ Request (application/json)
+        
+        {
+        }
+
++ Response 200 (application/json)
+
+        {
+        }
+        
+### Delete An Institution [DELETE]
+
++ Request (application/json)
+        
+        {
+        }
+
++ Response 200 (application/json)
+
+        {
+        }
+       
+## Specific Institution [/{tournament_name}/institutions/{institution_id}]
+  
+### Get Institution's Information [GET]
+
++ Response 200 (application/json)
+        
+        {
+            "id": institution_id,
+            "name": institution_name,
+            "url": institution_url,
+            "teams": [team],
+            "adjudicators": [adjudicator]
+        }  
+      
+### Modify Institution [PATCH]
+
++ Request (application/json)
+        
+        {
+        }
+
++ Response 200 (application/json)
+
+        {
+        }
+        
+## Team Results [/{tournament_name}/{round_num}/results/teams]
+
+### List Team Results [GET]
+
++ Response 200 (application/json)
+
+        {
+            "hi":21
+        }
+        
+## Speaker Results [/{tournament_name}/{round_num}/results/speakers]
+
+### List Speaker Results [GET]
+
++ Response 200 (application/json)
+
+        {
+            "hi":21
+        }
+        
+### Send Speaker Results [PUT]
+
++ Request (application/json)
+        
+        {
+            "error": null,
+            "round": 1,/* round1 => 1 */
+            "data":
+            [
+                {
+                    "team_id": team_id,
+                    "id": id,
+                    "points": ::[Float], /* 0 if he/she has no role */
+                    "win": ::Bool /* True if win else False */,
+                    "opponent_team_id": opponent_team_name,
+                    "side": ::String /* in BP, "og", "oo", "cg", "co". in 2side game, "gov", "opp"
+                }
+            ]
+        }
+        
++ Response 200 (application/json)
+    
+        {
+        }
+        
++ Response 400 (application/json)
+
+        {
+        }
+        
+## Adjudicator Results [/{tournament_name}/{round_num}/results/adjudicators]
+
+### List Adjudicator Results [GET]
+
++ Response 200 (application/json)
+
+        {
+            "hi":21
+        }
+        
+### Send Adjudicator Results [PUT]
+
++ Request (application/json)
+        
+        {
+            "error": null,
+            "round": 1,/* round1 => 1 */
+            "data":
+            [
+                {
+                    "adj_id": team_name,
+                    "points": ::[Float], /* 0 if he/she has no role */
+                    "team_ids": ::[Integer], /* teams' ids which the adj judged */
+                }
+            ]
+        }
+        
++ Response 200 (application/json)
+    
+        {
+        }
+        
+## Historical Team Results [/{tournament_name}/results/adjudicators]
+        
+## Historical Adjudicator Results [/{tournament_name}/results/teams]
