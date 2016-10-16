@@ -7,7 +7,8 @@ By which you can operate UTab  (Todo: backup, import)
 
 Version: v0.1
 
-tournament -> institution -> speaker -> team -> adjudicator -> venue
+speaker, institution -> team
+institution -> adjudicator
 
 ## Verification [/v0.1/{tournament_name}/verify]
 
@@ -61,14 +62,9 @@ tournament -> institution -> speaker -> team -> adjudicator -> venue
                 "tournament_num": 1,
                 "tournaments": [
                     {
-                        "url": "/v0.1/tournaments/0",
-                        "id": 0,
                         "name": "test%20tournament",
-                        "host": "Japan Parliamentary Debate Association",
-                        "pre_rounds": 3,
-                        "break_rounds": 1,
-                        "style": "PDA",
-                        "current_round": 0  /* not started yet */
+                        "num_of_rounds": 3,
+                        "style": "PDA"
                     }
                 ]
             }
@@ -80,25 +76,21 @@ tournament -> institution -> speaker -> team -> adjudicator -> venue
         
         {
             "name": "test%20tournament",
-            "host": "Japan Parliamentary Debate Association",
-            "pre_rounds": 3,
-            "break_rounds": 1,
-            "style": "PDA"
+            "num_of_rounds": 3,
+            "style": "PDA",
+            "url": ""
         }
         
 + Response 200 (application/json)
 
         {
             "errors": null
-            "data": {
-                "url": "/v0.1/tournaments/0",
+            "data":
+            {
                 "id": 0,
                 "name": "test%20tournament",
-                "host": "Japan Parliamentary Debate Association",
-                "pre_rounds": 3,
-                "break_rounds": 1,
-                "style": "PDA",
-                "current_round": 0  /* not started yet */
+                "num_of_rounds": 3,
+                "style": "PDA"
             }
         }
         
@@ -115,15 +107,13 @@ tournament -> institution -> speaker -> team -> adjudicator -> venue
 
         {
             "errors": null
-            "data": {
-                "url": "/v0.1/tournaments/0",
+            "data":
+            {
                 "id": 0,
                 "name": "test%20tournament",
-                "host": "Japan Parliamentary Debate Association",
-                "pre_rounds": 3,
-                "break_rounds": 1,
+                "num_of_rounds": 3,
                 "style": "PDA",
-                "current_round": 0  /* not started yet */
+                "url": "http://www.google.com"
             }
         }
         
@@ -137,13 +127,11 @@ tournament -> institution -> speaker -> team -> adjudicator -> venue
             "error": null,
             "data": [
                 {
-                    "url": "/v0.1/styles/0",
-                    "id": 0,
-                    "name": "PDA",
+                    "style_name": "PDA",
                     "debater_num_per_team": 4,
                     "team_num": 2,
-                    "score_weights": [1,1,0.5],
-                    "replies": [2,3], /* list of Integers. 1 if his/her role is reply */
+                    "score_weights": [1,1,1,0.5],
+                    "replies": [0,1], /* list of Integers. 1 if his/her role is reply */
                     "num_of_replies_per_team": 1
                 }
             ]
@@ -154,11 +142,11 @@ tournament -> institution -> speaker -> team -> adjudicator -> venue
 + Request (application/json)
 
         {
-            "name": "PDA",
+            "style_name": "PDA",
             "debater_num_per_team": 4,
             "team_num": 2,
-            "score_weights": [1,1,0.5],
-            "replies": [2,3], /* list of Integers. 1 if his/her role is reply */
+            "score_weights": score_weights,
+            "replies": replies, /* list of Integers. 1 if his/her role is reply */
             "num_of_replies_per_team": 1
         }
         
@@ -166,42 +154,39 @@ tournament -> institution -> speaker -> team -> adjudicator -> venue
 
         {
             "error": null,
-            "data": {
-                "url": "/v0.1/styles/0",
-                "id": 0,
-                "name": "PDA",
+            "data":
+            {
+                "style_name": "PDA",
                 "debater_num_per_team": 4,
                 "team_num": 2,
-                "score_weights": [1,1,0.5],
-                "replies": [2,3], /* list of Integers. 1 if his/her role is reply */
+                "score_weights": score_weights,
+                "replies": replies, /* list of Integers. 1 if his/her role is reply */
                 "num_of_replies_per_team": 1
             }
         }
         
-## Specific Tournament [/v0.1/tournaments/{tournament_id}]
+## Specific Tournament [/v0.1/{tournament_name}]
 
 ### Fetch Data [GET]
 
-+ Parameters
-
-    + tournament_id (number) - tournament id
-
 + Request (application/json)
 
+        {
+        }
+        
 + Response 200 (application/json)
 
         {
             "error": null,
-            "data": {
-                "url": "/v0.1/tournaments/0",
-                "id": 0,
-                "name": "test%20tournament",
-                "host": "Japan Parliamentary Debate Association",
-                "pre_rounds": 3,
-                "break_rounds": 1,
-                "style": "PDA",
-                "current_round": 0  /* not started yet */
-            }
+            "data":
+            {
+                "id": id,
+                "name": name,
+                "style": style,
+                "host": host,
+                "pre_rounds": pre_rounds,
+                "break_rounds": break_rounds,
+                "current_round": current_round
         }
 
 ### Revise Data [PATCH]
@@ -212,40 +197,56 @@ tournament -> institution -> speaker -> team -> adjudicator -> venue
             "error": null,
             "data":
             {
-                "id": 0,
-                "name": "test%20tournament" /* id and changed properties only */
-            }
+                "id": id,
+                "name": name,
+                "style": style,
+                "host": host,
+                "pre_rounds": pre_rounds,
+                "break_rounds": break_rounds
         }
 
 + Response 200 (application/json)
 
         {
-            "error": null,
-            "data": {
-                "url": "/v0.1/tournaments/0",
-                "id": 0,
-                "name": "test%20tournament",
-                "host": "Japan Parliamentary Debate Association",
-                "pre_rounds": 3,
-                "break_rounds": 1,
-                "style": "PDA",
-                "current_round": 0  /* not started yet */
-            }
         }
         
-## Round [/v0.1/tournaments/{tournament_id}/rounds/{round_id}]
+## Round [/v0.1/{tournament_name}/{round_num}]
 
 ### Get Round Information [GET]
 
-+ Parameters
-
-    + tournament_id (number) - tournament id
-    + round_id (number) - round id
-
 + Response 200 (application/json)
 
         {
-            
+            "round_num": 1,
+            "prepared": False, /*until False, you can edit adj, team, venue, insti*/
+            "finished": False,
+            "constants":
+            {
+                [
+                    "random_pairing":4,
+                    "des_power_pairing":1,
+                    "des_w_o_same_a_insti":2,
+                    "des_w_o_same_b_insti":0,
+                    "des_w_o_same_c_insti":0,
+                    "des_with_fair_sides":1 /*property: preference(1 = most preferred)*/
+    
+                ]
+            },
+            "constants_of_adj":
+            {
+                [
+                    "random_allocation":4,
+                    "des_strong_strong":2,
+                    "des_with_fair_sides":3,
+                    "des_avoiding_conflicts":1,
+                    "des_avoiding_past":0,
+                    "des_priori_bubble":0,
+                    "des_chair_rotation":0,
+                    "judge_test":100,
+                    "judge_repu_percent":0,
+                    "judge_perf_percent":0
+                ]
+            }
         }
         
 ### Send Round Config [PUT]
@@ -253,13 +254,19 @@ tournament -> institution -> speaker -> team -> adjudicator -> venue
 + Request (application/json)
 
         {
-            constants
-            filters
+            "constants": (defined above),
+            "constants_of_adj": null
         }
         
 + Response 200 (application/json)
 
         {
+            "errors": null,
+            "data":
+            {
+                "constants": (defined above)
+                "constants_of_adj": null
+            }
         }
         
 ### Proceed Round [POST]
