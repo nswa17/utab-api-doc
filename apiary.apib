@@ -802,7 +802,16 @@ institution -> adjudicator
 + Response 200 (application/json)
 
         {
-            "hi":21
+            "errors": null,
+            "data":
+            [
+                {
+                    "adj_id": adj_id,
+                    "name": adj_name
+                    "points": ::[Float], /* 0 if he/she has no role */
+                    "team_ids": ::[Integer], /* teams' ids which the adj judged */
+                }
+            ]
         }
         
 ### Send Adjudicator Results [PUT]
@@ -815,7 +824,8 @@ institution -> adjudicator
             "data":
             [
                 {
-                    "adj_id": team_name,
+                    "adj_id": adj_id,
+                    "name": adj_name
                     "points": ::[Float], /* 0 if he/she has no role */
                     "team_ids": ::[Integer], /* teams' ids which the adj judged */
                 }
@@ -825,6 +835,71 @@ institution -> adjudicator
 + Response 200 (application/json)
     
         {
+            "errors": null,
+            "data" : null
+        }
+        
+## Backups [/v0.1/{tournament_name}/backups]
+
+### List All Available Backups [GET]
+
++ Response 200 (application/json)
+        
+        {
+            "errors":null,
+            "data":
+            [
+                {
+                    "date": "2016/01/04-23:59:10",
+                    "comment": "test",
+                    "backup_code": "fda23fds"
+                }
+            ]
+        }
+
+### Back to Particular Point [PUT]
+
++ Request (application/json)
+        
+        {
+            "errors": null,
+            "data":
+            {
+                "backup_code": "fda23fds"
+            }
+        }
+        
++ Response 200 (application/json)
+    
+        {
+            "errors": null,
+            "data": null
+        }
+
+### Save Current State [POST]
+
++ Request (application/json)
+        
+        {
+            "errors": null,
+            "data":
+            {
+                "comment": "backupthis"
+            }
+        }
+        
++ Response 200 (application/json)
+        
+        {
+            "errors":null,
+            "data":
+            [
+                {
+                    "date": "2016/01/04-23:59:10",
+                    "comment": "test",
+                    "backup_code": "fda23fds"
+                }
+            ]
         }
         
 ## Historical Team Results [/v0.1/{tournament_name}/results/adjudicators]
