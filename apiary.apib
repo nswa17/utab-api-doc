@@ -65,7 +65,8 @@ institution -> adjudicator
                     {
                         "name": "test%20tournament",
                         "num_of_rounds": 3,
-                        "style": "PDA"
+                        "style": "PDA",
+                        "url": "www.google.com"
                     }
                 ]
             }
@@ -132,7 +133,7 @@ institution -> adjudicator
                     "debater_num_per_team": 4,
                     "team_num": 2,
                     "score_weights": [1,1,1,0.5],
-                    "replies": [0,1], /* list of Integers. 1 if his/her role is reply */
+                    "replies": [0,1],/* replier candidates. if 2nd speaker does reply, 1 */
                     "num_of_replies_per_team": 1
                 }
             ]
@@ -147,7 +148,7 @@ institution -> adjudicator
             "debater_num_per_team": 4,
             "team_num": 2,
             "score_weights": score_weights,
-            "replies": replies, /* list of Integers. 1 if his/her role is reply */
+            "replies": replies,
             "num_of_replies_per_team": 1
         }
         
@@ -219,34 +220,28 @@ institution -> adjudicator
 
         {
             "round_num": 1,
-            "prepared": False, /*until False, you can edit adj, team, venue, insti*/
-            "finished": False,
+            "status": 0, /*0:you can edit adj, team, venue, insti 4:results collected*/
             "constants":
             {
-                [
-                    "random_pairing":4,
-                    "des_power_pairing":1,
-                    "des_w_o_same_a_insti":2,
-                    "des_w_o_same_b_insti":0,
-                    "des_w_o_same_c_insti":0,
-                    "des_with_fair_sides":1 /*property: preference(1 = most preferred)*/
-    
-                ]
+                "random_pairing":4,
+                "des_power_pairing":1,
+                "des_w_o_same_a_insti":2,
+                "des_w_o_same_b_insti":0,
+                "des_w_o_same_c_insti":0,
+                "des_with_fair_sides":1 /*property: preference(1 = most preferred)*/
             },
             "constants_of_adj":
             {
-                [
-                    "random_allocation":4,
-                    "des_strong_strong":2,
-                    "des_with_fair_sides":3,
-                    "des_avoiding_conflicts":1,
-                    "des_avoiding_past":0,
-                    "des_priori_bubble":0,
-                    "des_chair_rotation":0,
-                    "judge_test":100,
-                    "judge_repu_percent":0,
-                    "judge_perf_percent":0
-                ]
+                "random_allocation":4,
+                "des_strong_strong":2,
+                "des_with_fair_sides":3,
+                "des_avoiding_conflicts":1,
+                "des_avoiding_past":0,
+                "des_priori_bubble":0,
+                "des_chair_rotation":0,
+                "judge_test":100,
+                "judge_repu_percent":0,
+                "judge_perf_percent":0
             }
         }
         
@@ -275,8 +270,8 @@ institution -> adjudicator
 + Request (application/json)
         
         {   
-            "proceed": proceed /*Boolean*/
-            "force_proceed": force /*Boolean. With false, you cannot proceed to next round until all results are collected*/
+            "proceed": True /*Boolean*/
+            "force_proceed": False /*Boolean. With false, you cannot proceed to next round until all results are collected*/
         }
         
 + Response 200 (application/json)
@@ -751,9 +746,13 @@ institution -> adjudicator
 
 + Response 200 (application/json)
 
-        {
-            "hi":21
-        }
+        [
+            {
+                "team_id": 3,
+                "team_name": KYM1,
+                "win": 1 /* when in BP win must be points(0, 1, 2, 3), when in NA win points be (0, 1:win)*/
+            }
+        ]
         
 ## Speaker Results [/v0.1/{tournament_name}/{round_num}/results/speakers]
 
@@ -761,11 +760,11 @@ institution -> adjudicator
 
 + Response 200 (application/json)
 
-        {
-            "hi":21
-        }
+        [
+            speaker_result(defined below)
+        ]
         
-### Send Speaker Results [PUT]
+### Send Speaker Result [PUT]
 
 + Request (application/json)
         
@@ -773,16 +772,14 @@ institution -> adjudicator
             "error": null,
             "round": 1,/* round1 => 1 */
             "data":
-            [
-                {
-                    "team_id": team_id,
-                    "id": id,
-                    "points": ::[Float], /* 0 if he/she has no role */
-                    "win": ::Bool /* True if win else False */,
-                    "opponent_team_id": opponent_team_name,
-                    "side": ::String /* in BP, "og", "oo", "cg", "co". in 2side game, "gov", "opp"
-                }
-            ]
+            {
+                "team_id": team_id,
+                "id": id,
+                "points": ::[Float], /* 0 if he/she has no role */
+                "win": ::Bool /* True if win else False */,
+                "opponent_team_id": opponent_team_name,
+                "side": ::String /* in BP, "og", "oo", "cg", "co". in 2side game, "gov", "opp"
+            }
         }
         
 + Response 200 (application/json)
@@ -814,7 +811,7 @@ institution -> adjudicator
             ]
         }
         
-### Send Adjudicator Results [PUT]
+### Send Adjudicator Result [PUT]
 
 + Request (application/json)
         
@@ -822,14 +819,12 @@ institution -> adjudicator
             "error": null,
             "round": 1,/* round1 => 1 */
             "data":
-            [
-                {
-                    "adj_id": adj_id,
-                    "name": adj_name
-                    "points": ::[Float], /* 0 if he/she has no role */
-                    "team_ids": ::[Integer], /* teams' ids which the adj judged */
-                }
-            ]
+            {
+                "adj_id": adj_id,
+                "name": adj_name
+                "points": ::[Float], /* 0 if he/she has no role */
+                "team_ids": ::[Integer], /* teams' ids which the adj judged */
+            }
         }
         
 + Response 200 (application/json)
