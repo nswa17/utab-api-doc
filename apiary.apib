@@ -121,7 +121,7 @@ institution -> adjudicator
         
 ## Available Styles [/v0.1/styles]
 
-### List All Available Styles [GET]
+### List All Styles [GET]
 
 + Response 200 (application/json)
 
@@ -282,34 +282,7 @@ institution -> adjudicator
             {
             }
         ]
-        
-## Filters [/v0.1/{tournament_name}/{round_num}/filters]
-
-### Get Default Filters [GET]
-
-+ Response 200 (application/json)
-
-        {
-            "error": null,
-            "filters":
-            {
-            }
-        }
-
-### Send Filters [PUT]
-
-+ Request (application/json)
-
-
-+ Response 200 (application/json)
-
-        {
-            "error": null,
-            "filters":
-            {
-            }
-        }
-
+    
 ## All Candidate Matchups [/v0.1/{tournament_name}/{round_num}/control/matchups]
 
 + Parameters
@@ -411,7 +384,7 @@ institution -> adjudicator
         {
         }
 
-### Exchange Adjudicators [PATCH]
+### Exchange Panels [PATCH]
 
 + Request (application/json)
         
@@ -517,7 +490,7 @@ institution -> adjudicator
             "url": adjudicator_url
         }
 
-### Modify Adjudicator's Status [PUT]
+### Modify Adjudicator [PUT]
 
 + Request (application/json)
         
@@ -550,20 +523,6 @@ institution -> adjudicator
 
         "Thank you"
         
-## Specific Team [/v0.1/{tournament_name}/teams/{team_id}]
-
-### View Specific Team [GET]
-
-+ Response 200 (application/json)
-
-        {
-            "id": id,
-            "name": team_name,
-            "speakers": [speaker],
-            "available": team_available,
-            "url": team_url
-        }
-        
 ### Delete Team [DELETE]
 
 + Request (application/json)
@@ -588,7 +547,21 @@ institution -> adjudicator
             "hello": team_id
         }
         
-### Edit Team [PATCH]
+## Specific Team [/v0.1/{tournament_name}/teams/{team_id}]
+
+### View Specific Team [GET]
+
++ Response 200 (application/json)
+
+        {
+            "id": id,
+            "name": team_name,
+            "speakers": [speaker],
+            "available": team_available,
+            "url": team_url
+        }
+        
+### Modify Team [PATCH]
         
 + Request (application/json)
 
@@ -847,7 +820,8 @@ institution -> adjudicator
                 {
                     "date": "2016/01/04-23:59:10",
                     "comment": "test",
-                    "backup_code": "fda23fds"
+                    "backup_code": "fda23fds",
+                    "round_num": 1 /* in which the backup is made */
                 }
             ]
         }
