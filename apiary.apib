@@ -197,7 +197,7 @@ institution -> adjudicator
     
         [
             {
-                "judge_test":100,
+                "judge_test_percent":100,
                 "judge_repu_percent":0,
                 "judge_perf_percent":0
             }
@@ -235,6 +235,24 @@ institution -> adjudicator
 
 ### Get Round Information [GET]
 
+/* status code
+0: before starting round(you can add adjudicators, etc...)
+1: computing matchups
+2: finished computing matchups
+3: computing allocations
+4: finished computing matchups
+5: computing panel allocation
+6: finished computing panel allocation
+7: computing venue allocation
+8: finished computing venue allocation
+9: collecting results
+10: team results processing
+11: team results processed
+12: adj results processing
+13: adj results processed
+14: results processed, prepared to proceed to next round
+*/
+
 + Response 200 (application/json)
 
         {   
@@ -242,7 +260,7 @@ institution -> adjudicator
             "data":
             {
                 "round_num": 1,
-                "status": 0, /*0:you can edit adj, team, venue, insti 4:results collected*/
+                "status": 0,
                 "constants":
                 [
                     {
@@ -766,27 +784,24 @@ institution -> adjudicator
 + Request (application/json)
         
         {
-            "errors": null,
-            "round": 1,/* round1 => 1 */
-            "data":
-            {
-                "team_id": team_id,
-                "id": id,
-                "points": ::[Float], /* 0 if he/she has no role */
-                "win": ::Bool /* True if win else False */,
-                "opponent_team_id": opponent_team_name,
-                "side": ::String /* in BP, "og", "oo", "cg", "co". in 2side game, "gov", "opp"
-            }
+            "round_num": 1,/* round1 => 1 */
+            "team_id": team_id,
+            "id": id,
+            "points": ::[Float], /* 0 if he/she has no role */
+            "win": ::Bool /* True if win else False */,
+            "opponent_team_id": opponent_team_name,
+            "side": ::String /* in BP, "og", "oo", "cg", "co". in 2side game, "gov", "opp"
         }
-        
+    
 + Response 200 (application/json)
     
         {
-        }
-        
-+ Response 400 (application/json)
-
-        {
+            "errors": null,
+            "data":
+            {
+                "id": 31,
+                "from": 'Content-Type....'
+            }
         }
         
 ## Adjudicator Results [/v0.1/{tournament_name}/{round_num}/results/adjudicators]
