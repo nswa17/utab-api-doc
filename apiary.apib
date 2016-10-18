@@ -891,6 +891,44 @@ institution -> adjudicator
             ]
         }
         
-## Historical Team Results [/v0.1/{tournament_name}/results/adjudicators]
+## Adjudicator Comments [/v0.1/{tournament_name}/{adjudicator_id}/comments]
+
+### Download Comments on Adjudicator [GET]
+
++ Response 200 (application/json)
         
-## Historical Adjudicator Results [/v0.1/{tournament_name}/results/teams]
+        {
+            "errors":null,
+            "data":
+            [
+                {
+                    "round": 1,
+                    "comments":
+                    [
+                        {
+                            "comment": "worst judge ever",
+                            "from": "team",
+                            "from_id": 23,
+                            "from_name": "UTK1"
+                        }
+                    ]
+                }
+            ]
+        }
+
+## All Team Results [/v0.1/{tournament_name}/results/teams]
+
+become available when rounds finished
+
+### Download Team Results [GET]
+        
+<--! Modify Results [POST] : not supported by current api version -->
+
++ Response 200 (application/json)
+        
+        {
+            "errors":null,
+            "data": undef
+        }
+        
+## All Adjudicator Results [/v0.1/{tournament_name}/results/adjudicators]
