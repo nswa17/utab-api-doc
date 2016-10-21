@@ -11,45 +11,14 @@ speaker, institution -> team
 
 institution -> adjudicator
 
-## Verification [/v0.1/{tournament_name}/verify]
+Get -> GET
+Create -> POST(force=false)
+Create/Update-if-exist -> PUT
+Update -> PATCH
+Delete -> DELETE
 
-+ Parameters
-    + tournament_name (required, string, `test`)
-    
-### Send Verification Code [PUT]
+## Verification
 
-+ Request (application/json)
-
-        {
-            "errors": null,
-            "data":
-            {
-                "name": name,
-                "pass": pass
-            }
-        }
-        
-+ Response 200 (application/json)
-        
-        {
-            "errors": null,
-            "user_code": user_code /* Random Hash given by Server, neccesary for using APIs*/
-        }
-
-+ Response 403 (application/json)
-    
-        {
-            "errors": [
-                {
-                    "statusCode": status_code,    /*ex)0 the error type code which is unique to each errors <Integer, required> */
-                    "statusText": "status_text",  /*ex)Unauthorized one-line description of the error type <String, required> */
-                    "message": message,    /*ex)"We are sorry, but your id or password is incorrect." Supporting message usually shown to end-users <String, optional> */
-                    "from": from /*ex)"verification" where the error occurs <String, optional> */
-                }
-            ],
-            "data": null
-        }
-        
 ## Tournaments [/v0.1/tournaments]
 
 ### List All Tournaments [GET]
@@ -60,27 +29,65 @@ institution -> adjudicator
             "errors": null,
             "data": 
             {
-                "tournament_num": 1,
                 "tournaments": [
                     {
                         "name": "test tournament",
                         "num_of_rounds": 3,
                         "style": "PDA",
-                        "url": "www.google.com"
+                        "url": "/v0.1/test%20tournament",
+                        "judge_criteria": {
+                            "judge_test_percent":100,
+                            "judge_repu_percent":0,
+                            "judge_perf_percent":0
+                        }
                     }
                 ]
             }
         }
 
-### New Tournament [POST]
+## Specific Tournaments [/v0.1/{tournament_name}]
+
++ Parameters
+    + tournament_name (required, string, `test`)
+
+### Get Tournament [GET]
+
++ Response 200 (application/json)
+
+        {
+            "errors": null,
+            "data": {
+                "url": "/v0.1/test%20tournament"
+                "id": 0,
+                "name": "test%20tournament",
+                "style": "PDA",
+                "host": "Great TD",
+                "judge_criteria": {
+                    "judge_test_percent":100,
+                    "judge_repu_percent":0,
+                    "judge_perf_percent":0
+                }
+            }
+        }
+
+### Create Tournament [POST]
 
 + Request (application/json)
         
         {
-            "name": "test%20tournament",
-            "num_of_rounds": 3,
-            "style": "PDA",
-            "url": ""
+            "args": {
+              "force": false
+            },
+            "data": {
+                "name": "test%20tournament",
+                "style": "PDA",
+                "host": "Great TD",
+                "judge_criteria": {
+                    "judge_test_percent":100,
+                    "judge_repu_percent":0,
+                    "judge_perf_percent":0
+                }
+            }
         }
         
 + Response 200 (application/json)
@@ -89,10 +96,81 @@ institution -> adjudicator
             "errors": null
             "data":
             {
+                "url": "/v0.1/test%20tournament"
                 "id": 0,
                 "name": "test%20tournament",
-                "num_of_rounds": 3,
-                "style": "PDA"
+                "style": "PDA",
+                "host": "Great TD",
+                "judge_criteria": {
+                    "judge_test_percent":100,
+                    "judge_repu_percent":0,
+                    "judge_perf_percent":0
+                }
+            }
+        }
+        
+### Create/Update Tournament [PUT]
+
++ Request (application/json)
+        
+        {
+            "name": "test%20tournament",
+            "style": "PDA",
+            "host": "Great TD",
+            "judge_criteria": {
+                "judge_test_percent":100,
+                "judge_repu_percent":0,
+                "judge_perf_percent":0
+            }
+        }
+        
++ Response 200 (application/json)
+
+        {
+            "errors": null
+            "data":
+            {
+                "url": "/v0.1/test%20tournament"
+                "id": 0,
+                "name": "test%20tournament",
+                "style": "PDA",
+                "host": "Great TD",
+                "judge_criteria": {
+                    "judge_test_percent":100,
+                    "judge_repu_percent":0,
+                    "judge_perf_percent":0
+                }
+            }
+        }
+        
+### Update Tournament [PATCH]
+        
++ Request (application/json)
+
+        {
+            "id": 0,
+            "name": "test%20tournament",
+            "style": "PDA",
+            "host": "Great TD",
+            "judge_criteria": {
+                "judge_test_percent":100,
+                "judge_repu_percent":0,
+                "judge_perf_percent":0
+            }
+        }
+
++ Response 200 (application/json)
+
+        {
+            "url": "/v0.1/test%20tournament"
+            "id": 0,
+            "name": "test%20tournament",
+            "style": "PDA",
+            "host": "Great TD",
+            "judge_criteria": {
+                "judge_test_percent":100,
+                "judge_repu_percent":0,
+                "judge_perf_percent":0
             }
         }
         
@@ -111,11 +189,11 @@ institution -> adjudicator
             "errors": null
             "data":
             {
+                "url": "/v0.1/test%20tournament"
                 "id": 0,
                 "name": "test%20tournament",
-                "num_of_rounds": 3,
                 "style": "PDA",
-                "url": "http://www.google.com"
+                "host": "Great TD"
             }
         }
         
@@ -165,70 +243,6 @@ institution -> adjudicator
                 "replies": replies, /* list of Integers. 1 if his/her role is reply */
                 "num_of_replies_per_team": 1
             }
-        }
-        
-## Specific Tournament [/v0.1/{tournament_name}]
-
-### Fetch Data [GET]
-
-+ Request (application/json)
-
-        {
-        }
-        
-+ Response 200 (application/json)
-
-        {
-            "errors": null,
-            "data":
-            {
-                "id": id,
-                "name": name,
-                "style": style,
-                "host": host,
-                "pre_rounds": pre_rounds,
-                "break_rounds": break_rounds,
-                "current_round": current_round
-        }
-        
-### Set Judge Criterion [PUT]
-
-+ Request (application/json)
-    
-        [
-            {
-                "judge_test_percent":100,
-                "judge_repu_percent":0,
-                "judge_perf_percent":0
-            }
-        ]
-        
-+ Response 200 (application/json)
-
-        {
-            "errors":null,
-            "data":null
-        }
-
-### Revise Data [PATCH]
-        
-+ Request (application/json)
-
-        {
-            "errors": null,
-            "data":
-            {
-                "id": id,
-                "name": name,
-                "style": style,
-                "host": host,
-                "pre_rounds": pre_rounds,
-                "break_rounds": break_rounds
-        }
-
-+ Response 200 (application/json)
-
-        {
         }
         
 ## Round [/v0.1/{tournament_name}/{round_num}]
@@ -319,172 +333,408 @@ institution -> adjudicator
 + Response 200 (application/json)
 
         {
-            "errors": null,
-            "data": 
-            {
+            "errors": [],
+            "data":{
+              
             }
         ]
     
-## All Candidate Matchups [/v0.1/{tournament_name}/{round_num}/control/matchups]
+## All Suggested Team Allocations [/v0.1/{tournament_name}/{round_num}/suggested_team_allocations]
 
 + Parameters
     + tournament_name (required, string, `test`)
     + round_num (required, number, `1`)
     
-### Get All Candidate Matchups [GET]
+### Get All Suggested Team Allocations [GET]
     
 + Response 200 (application/json)
 
         {
+            "errors": [],
+            "data": {
+                "candidates": [
+                    {
+                        "algorithm": "",
+                        "indices": {
+                            "power_pairing_indicator": 1.0, /* 1 - inf. */
+                            "adapt_indicator": , /*  */
+                            "adapt_indicator2": , /*  */
+                            "adapt_indicator_sd": 10, /* Standard Diviation */
+                            "gini_index": 0.0, /* 0-1 */
+                            "scatter_indicator": 0.0 /*  */
+                        },
+                        "warings": [
+                            {}
+                        ],
+                        "allocation": [
+                            {
+                                "id": 0,
+                                "grid": [
+                                    {
+                                        "id": 0,
+                                        "name": "Test Team A" 
+                                    },
+                                    {
+                                        "id": 1,
+                                        "name": "Test Team B"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": 1,
+                                "grid": [
+                                    {
+                                        "id": 2,
+                                        "name": "Test Team C" 
+                                    },
+                                    {
+                                        "id": 3,
+                                        "name": "Test Team D"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
         }
-        
-## Selecting Matchups [/v0.1/{tournament_name}/{round_num}/control/matchups/{matchup_id}]
 
-### Get Specified Candidate Matchup [GET]
+## Team Allocation [/v0.1/{tournament_name}/{round_num}/team_allocation]
+
++ Parameters
+    + tournament_name (required, string, `test`)
+    + round_num (required, number, `1`)
+    
+### Get Team Allocation [GET]
     
 + Response 200 (application/json)
 
         {
-            "errors": null,
-            "data":
-            [
+            "errors": [],
+            "data": {
+                "allocation": [
+                    {
+                        "id": 0,
+                        "grid": [
+                            {
+                                "id": 0,
+                                "name": "Test Team A"
+                            },
+                            {
+                                "id": 1,
+                                "name": "Test Team B"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 1,
+                        "grid": [
+                            {
+                                "id": 2,
+                                "name": "Test Team C"
+                            },
+                            {
+                                "id": 3,
+                                "name": "Test Team D"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+
+### Send Team Allocation [POST]
+
++ Request
+
+        {
+            "allocation": [
                 {
-                    "team_ids": [1, 2]
+                    "id": 0,
+                    "grid": [
+                        {
+                            "id": 0,
+                            "name": "Test Team A"
+                        },
+                        {
+                            "id": 1,
+                            "name": "Test Team B"
+                        }
+                    ]
+                },
+                {
+                    "id": 1,
+                    "grid": [
+                        {
+                            "id": 2,
+                            "name": "Test Team C"
+                        },
+                        {
+                            "id": 3,
+                            "name": "Test Team D"
+                        }
+                    ]
                 }
             ]
         }
-        
 
-### Exchange Teams [PATCH]
+## All Suggested Adjudicator Allocations [/v0.1/{tournament_name}/{round_num}/suggested_adjdicator_allocations]
 
-+ Request (application/json)
-        
-        {
-        }
-        
++ Parameters
+    + tournament_name (required, string, `test`)
+    + round_num (required, number, `1`)
+    
+### Get All Suggested Adudicator Allocations [GET]
+    
 + Response 200 (application/json)
 
         {
+            "errors": [],
+            "data": {
+                "candidates": [
+                    {
+                        "algorithm": "",
+                        "indices": {
+                            "power_pairing_indicator": 1.0, /* 1 - inf. */
+                            "adapt_indicator": , /*  */
+                            "adapt_indicator2": , /*  */
+                            "adapt_indicator_sd": 10, /* Standard Diviation */
+                            "gini_index": 0.0, /* 0-1 */
+                            "scatter_indicator": 0.0 /*  */
+                        },
+                        "warings": [
+                            {}
+                        ],
+                        "allocation": [
+                                {
+                                    "grid_id": 0,
+                                    "adjudicators": {
+                                        "chairs": [
+                                            {
+                                                "id": 0,
+                                                "name": "Adj A"
+                                            }
+                                        ],
+                                        "panels": [
+                                            {
+                                                "id": 1,
+                                                "name": "Adj B"
+                                            },
+                                            {
+                                                "id": 2,
+                                                "name": "Adj C"
+                                            }
+                                        ],
+                                        "trainees": []
+                                    }
+                                },
+                                {
+                                    "grid_id": 1
+                                    "adjudicators": {
+                                        "chairs": [
+                                            {
+                                                "id": 3,
+                                                "name": "Adj D"
+                                            }
+                                        ],
+                                        "panels": [],
+                                        "trainees": []
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                ]
+            }
         }
-        
-### Confirm Arranged Matchup [POST]
 
-+ Request (application/json)
-        
-        {
-        }
-        
+## Adjudicator Allocation [/v0.1/{tournament_name}/{round_num}/adjdicator_allocation]
+
++ Parameters
+    + tournament_name (required, string, `test`)
+    + round_num (required, number, `1`)
+    
+### Get Adudicator Allocation [GET]
+    
 + Response 200 (application/json)
 
         {
+            "errors": [],
+            "data": {
+                "allocation": [
+                    {
+                        "grid_id": 0,
+                        "adjudicators": {
+                            "chairs": [
+                                {
+                                    "id": 0,
+                                    "name": "Adj A"
+                                }
+                            ],
+                            "panels": [
+                                {
+                                    "id": 1,
+                                    "name": "Adj B"
+                                },
+                                {
+                                    "id": 2,
+                                    "name": "Adj C"
+                                }
+                            ],
+                            "trainees": []
+                        }
+                    },
+                    {
+                        "grid_id": 1
+                        "adjudicators": {
+                            "chairs": [
+                                {
+                                    "id": 3,
+                                    "name": "Adj D"
+                                }
+                            ],
+                            "panels": [],
+                            "trainees": []
+                        }
+                    }
+                ]
+            }
         }
-        
-## All Candidate Allocations [/v0.1/{tournament_name}/{round_num}/control/allocations]
 
-### Get All Candidate Allocations [GET]
+### Send Adjudicator Allocation [POST]
 
++ Request
+
+        {
+            "allocation": [
+                {
+                    "grid_id": 0,
+                    "adjudicators": {
+                        "chairs": [
+                            {
+                                "id": 0,
+                                "name": "Adj A"
+                            }
+                        ],
+                        "panels": [
+                            {
+                                "id": 1,
+                                "name": "Adj B"
+                            },
+                            {
+                                "id": 2,
+                                "name": "Adj C"
+                            }
+                        ],
+                        "trainees": []
+                    }
+                },
+                {
+                    "grid_id": 1
+                    "adjudicators": {
+                        "chairs": [
+                            {
+                                "id": 3,
+                                "name": "Adj D"
+                            }
+                        ],
+                        "panels": [],
+                        "trainees": []
+                    }
+                }
+            ]
+        }
+
+## All Suggested Venue Allocations [/v0.1/{tournament_name}/{round_num}/suggested_venue_allocations]
+
++ Parameters
+    + tournament_name (required, string, `test`)
+    + round_num (required, number, `1`)
+    
+### Get All Suggested Venue Allocations [GET]
+    
 + Response 200 (application/json)
 
         {
-        }
-        
-## Selecting Allocations [/v0.1/{tournament_name}/{round_num}/control/allocations/{allocation_id}]
-
-### Get Specified Candidate Allocation [GET]
-
-+ Response 200 (application/json)
-
-        {
-        }
-
-### Exchange Adjudicators [PATCH]
-
-+ Request (application/json)
-        
-        {
-        }
-
-+ Response 200 (application/json)
-
-        {
-        }
-
-### Select Allocation [POST]
-
-+ Request (application/json)
-        
-        {
-        }
-
-+ Response 200 (application/json)
-
-        {
-        }
-
-## Allocating Panels [/v0.1/{tournament_name}/{round_num}/control/panels]
-
-### Get Candidate Panel Allocation [GET]
-
-+ Response 200 (application/json)
-
-        {
+            "errors": [],
+            "data": {
+                "candidates": [
+                    {
+                        "algorithm": "",
+                        "indices": {
+                            "power_pairing_indicator": 1.0, /* 1 - inf. */
+                            "adapt_indicator": , /*  */
+                            "adapt_indicator2": , /*  */
+                            "adapt_indicator_sd": 10, /* Standard Diviation */
+                            "gini_index": 0.0, /* 0-1 */
+                            "scatter_indicator": 0.0 /*  */
+                        },
+                        "warings": [
+                            {}
+                        ],
+                        "allocation": [
+                                {
+                                    "grid_id": 0,
+                                    "id": 0,
+                                    "name": "Venue 1"
+                                },
+                                {
+                                    "grid_id": 1,
+                                    "id": 1,
+                                    "name": "Venue 1"
+                                }
+                            ]
+                        }
+                    ]
+                ]
+            }
         }
 
-### Exchange Panels [PATCH]
+## Venue Allocation [/v0.1/{tournament_name}/{round_num}/venue_allocation]
 
-+ Request (application/json)
-        
-        {
-        }
-
-+ Response 200 (application/json)
-
-        {
-        }
-
-### Approve Panel Allocation [POST]
-
-+ Request (application/json)
-        
-        {
-        }
-
-+ Response 200 (application/json)
-
-        {
-        }
-
-## Selecting Venues [/v0.1/{tournament_name}/{round_num}/control/venues]
-
++ Parameters
+    + tournament_name (required, string, `test`)
+    + round_num (required, number, `1`)
+    
 ### Get Venue Allocation [GET]
-
+    
 + Response 200 (application/json)
 
         {
+            "errors": [],
+            "data": {
+                "allocation": [
+                    {
+                        "grid_id": 0,
+                        "id": 0,
+                        "name": "Venue 1"
+                    },
+                    {
+                        "grid_id": 1,
+                        "id": 1,
+                        "name": "Venue 2"
+                    }
+                ]
+            }
         }
 
-### Exchange Venues [PATCH]
+### Send Venue Allocation [POST]
 
-+ Request (application/json)
-        
-        {
-        }
-
-+ Response 200 (application/json)
++ Request
 
         {
-        }
-
-### Approve Venue Allocation [POST]
-
-+ Request (application/json)
-        
-        {
-        }
-
-+ Response 200 (application/json)
-
-        {
+            "allocation": [
+                {
+                    "grid_id": 0,
+                    "id": 0,
+                    "name": "Venue 1"
+                },
+                {
+                    "grid_id": 1,
+                    "id": 1,
+                    "name": "Venue 2"
+                }
+            ]
         }
         
 ## Adjudicators [/v0.1/{tournament_name}/adjudicators]
@@ -496,31 +746,7 @@ institution -> adjudicator
         {
         }
 
-### Add An Adjudicator [POST]
-
-+ Request (application/json)
-        
-        {
-        }
-        
-+ Response 200 (application/json)
-    
-        {
-        }
-        
-### Delete An Adjudicator [DELETE]
-
-+ Request (application/json)
-        
-        {
-        }
-        
-+ Response 200 (application/json)
-    
-        {
-        }
-
-## Specific Adjudicator [/v0.1/{tournament_name}/adjudicators/{adjudicator_id}]
+## Specific Adjudicator [/v0.1/{tournament_name}/adjudicators/{adjudicator_name}]
 
 ### Get Specific Adjudicator [GET]
 
@@ -539,7 +765,19 @@ institution -> adjudicator
             }
         }
 
-### Modify Adjudicator [PUT]
+### Create Adjudicator [POST]
+
++ Request (application/json)
+        
+        {
+        }
+        
++ Response 200 (application/json)
+    
+        {
+        }
+        
+### Create/Update-if-exist Adjudicator [PUT]
 
 + Request (application/json)
         
@@ -551,6 +789,18 @@ institution -> adjudicator
         {
         }
         
+### Delete An Adjudicator [DELETE]
+
++ Request (application/json)
+        
+        {
+        }
+        
++ Response 200 (application/json)
+    
+        {
+        }
+
 ## Teams [/v0.1/{tournament_name}/teams]
 
 ### List All Teams [GET]
@@ -560,32 +810,9 @@ institution -> adjudicator
         {
         }
 
-### Add A Team [POST]
-
-+ Request (application/json)
-
-        {
-        }
-
-+ Response 200 (text/plain)
-
-        "Thank you, "
-        
-### Delete Team [DELETE]
-
-+ Request (application/json)
-
-        {
-        }
-
-+ Response 200 (application/json)
-
-        {
-        }
-        
 ## Specific Team [/v0.1/{tournament_name}/teams/{team_id}]
 
-### View Specific Team [GET]
+### Get Team [GET]
 
 + Response 200 (application/json)
 
@@ -601,8 +828,42 @@ institution -> adjudicator
             }
         }
         
-### Modify Team [PATCH]
+### Create Team [POST]
+
++ Request (application/json)
+
+        {
+        }
+
++ Response 200 (text/plain)
+
+        "Thank you, "
         
+### Create/Update-if-exist Team [PUT]
+
++ Request (application/json)
+
+        {
+        }
+
++ Response 200 (text/plain)
+
+        "Thank you, "
+        
+### Update Team [PATCH]
+        
++ Request (application/json)
+
+        {
+        }
+
++ Response 200 (application/json)
+
+        {
+        }
+        
+### Delete Team [DELETE]
+
 + Request (application/json)
 
         {
@@ -627,33 +888,9 @@ institution -> adjudicator
             }
         }
 
-### Add A Venue [PUT]
-
-+ Request (application/json)
-        
-        {
-        }
-        
-+ Response 200 (application/json)
-    
-        {
-        }
-        
-### Delete A Venue [DELETE]
-
-+ Request (application/json)
-        
-        {
-        }
-        
-+ Response 200 (application/json)
-    
-        {
-        }
-
 ## Specific Venue [/v0.1/{tournament_name}/venues/{venue_id}]
 
-### Get Specific Venue [GET]
+### Get Venue [GET]
 
 + Response 200 (application/json)
 
@@ -669,7 +906,31 @@ institution -> adjudicator
             }
         }
 
-### Modify Venue's Status [PUT]
+### Create Venue [POST]
+
++ Request (application/json)
+        
+        {
+        }
+        
++ Response 200 (application/json)
+    
+        {
+        }
+        
+### Create/Update-if-exist Venue [PUT]
+
++ Request (application/json)
+        
+        {
+        }
+        
++ Response 200 (application/json)
+    
+        {
+        }
+        
+### Update Venue [PATCH]
 
 + Request (application/json)
         
@@ -682,6 +943,18 @@ institution -> adjudicator
             "hello": adjudicator_id
         }
         
+### Delete Venue [DELETE]
+
++ Request (application/json)
+        
+        {
+        }
+        
++ Response 200 (application/json)
+    
+        {
+        }
+
 ## Institutions [/v0.1/{tournament_name}/institutions]
 
 ### List All Institutions [GET]
@@ -691,33 +964,9 @@ institution -> adjudicator
         {
         }
         
-### Add An Institution [POST]
-
-+ Request (application/json)
-        
-        {
-        }
-
-+ Response 200 (application/json)
-
-        {
-        }
-        
-### Delete An Institution [DELETE]
-
-+ Request (application/json)
-        
-        {
-        }
-
-+ Response 200 (application/json)
-
-        {
-        }
-       
 ## Specific Institution [/v0.1/{tournament_name}/institutions/{institution_id}]
   
-### Get Institution's Information [GET]
+### Get Institution [GET]
 
 + Response 200 (application/json)
         
@@ -733,7 +982,7 @@ institution -> adjudicator
             }
         }  
       
-### Modify Institution [PATCH]
+### Create Institution [POST]
 
 + Request (application/json)
         
@@ -745,6 +994,44 @@ institution -> adjudicator
         {
         }
         
+### Create/Update-if-exist Institution [PUT]
+
++ Request (application/json)
+        
+        {
+        }
+
++ Response 200 (application/json)
+
+        {
+        }
+        
+### Update Institution [PATCH]
+
++ Request (application/json)
+        
+        {
+        }
+
++ Response 200 (application/json)
+
+        {
+        }
+        
+### Delete Institution [DELETE]
+
++ Request (application/json)
+        
+        {
+        }
+
++ Response 200 (application/json)
+
+        {
+        }
+       
+## NOTOUCHBELOW [/helloworld]
+
 ## Team Results [/v0.1/{tournament_name}/{round_num}/results/teams]
 
 ### List Team Results [GET]
@@ -756,7 +1043,7 @@ institution -> adjudicator
             [
                 {
                     "team_id": 3,
-                    "team_name": KYM1,
+                    "team_name": "KYM1",
                     "win": 1 /* when in BP win must be points(0, 1, 2, 3), when in NA win points be (0, 1:win)*/
                 }
             ]
@@ -795,8 +1082,7 @@ institution -> adjudicator
             "errors": null,
             "data":
             {
-                "id": 31,
-                "from": 'Content-Type....'
+                "id": 31
             }
         }
         
