@@ -45,7 +45,8 @@ Delete -> DELETE
             }
         }
 
-## Specific Tournaments [/v0.1/{touenament_name}]
+## Specific Tournaments [/v0.1/{tournament_name}]
+
 + Parameters
     + tournament_name (required, string, `test`)
 
@@ -108,7 +109,7 @@ Delete -> DELETE
             }
         }
         
-### Create/Update Tournament [POST]
+### Create/Update Tournament [PUT]
 
 + Request (application/json)
         
@@ -408,9 +409,45 @@ Delete -> DELETE
     
 + Response 200 (application/json)
 
-    {
-        "errors": [],
-        "data": {
+        {
+            "errors": [],
+            "data": {
+                "allocation": [
+                    {
+                        "id": 0,
+                        "grid": [
+                            {
+                                "id": 0,
+                                "name": "Test Team A"
+                            },
+                            {
+                                "id": 1,
+                                "name": "Test Team B"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 1,
+                        "grid": [
+                            {
+                                "id": 2,
+                                "name": "Test Team C"
+                            },
+                            {
+                                "id": 3,
+                                "name": "Test Team D"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+
+### Send Team Allocation [POST]
+
++ Request
+
+        {
             "allocation": [
                 {
                     "id": 0,
@@ -440,42 +477,6 @@ Delete -> DELETE
                 }
             ]
         }
-    }
-
-### Send Team Allocation [POST]
-
-+ Request
-
-    {
-        "allocation": [
-            {
-                "id": 0,
-                "grid": [
-                    {
-                        "id": 0,
-                        "name": "Test Team A"
-                    },
-                    {
-                        "id": 1,
-                        "name": "Test Team B"
-                    }
-                ]
-            },
-            {
-                "id": 1,
-                "grid": [
-                    {
-                        "id": 2,
-                        "name": "Test Team C"
-                    },
-                    {
-                        "id": 3,
-                        "name": "Test Team D"
-                    }
-                ]
-            }
-        ]
-    }
 
 ## All Suggested Adjudicator Allocations [/v0.1/{tournament_name}/{round_num}/suggested_adjdicator_allocations]
 
@@ -557,9 +558,54 @@ Delete -> DELETE
     
 + Response 200 (application/json)
 
-    {
-        "errors": [],
-        "data": {
+        {
+            "errors": [],
+            "data": {
+                "allocation": [
+                    {
+                        "grid_id": 0,
+                        "adjudicators": {
+                            "chairs": [
+                                {
+                                    "id": 0,
+                                    "name": "Adj A"
+                                }
+                            ],
+                            "panels": [
+                                {
+                                    "id": 1,
+                                    "name": "Adj B"
+                                },
+                                {
+                                    "id": 2,
+                                    "name": "Adj C"
+                                }
+                            ],
+                            "trainees": []
+                        }
+                    },
+                    {
+                        "grid_id": 1
+                        "adjudicators": {
+                            "chairs": [
+                                {
+                                    "id": 3,
+                                    "name": "Adj D"
+                                }
+                            ],
+                            "panels": [],
+                            "trainees": []
+                        }
+                    }
+                ]
+            }
+        }
+
+### Send Adjudicator Allocation [POST]
+
++ Request
+
+        {
             "allocation": [
                 {
                     "grid_id": 0,
@@ -598,51 +644,6 @@ Delete -> DELETE
                 }
             ]
         }
-    }
-
-### Send Adjudicator Allocation [POST]
-
-+ Request
-
-    {
-        "allocation": [
-            {
-                "grid_id": 0,
-                "adjudicators": {
-                    "chairs": [
-                        {
-                            "id": 0,
-                            "name": "Adj A"
-                        }
-                    ],
-                    "panels": [
-                        {
-                            "id": 1,
-                            "name": "Adj B"
-                        },
-                        {
-                            "id": 2,
-                            "name": "Adj C"
-                        }
-                    ],
-                    "trainees": []
-                }
-            },
-            {
-                "grid_id": 1
-                "adjudicators": {
-                    "chairs": [
-                        {
-                            "id": 3,
-                            "name": "Adj D"
-                        }
-                    ],
-                    "panels": [],
-                    "trainees": []
-                }
-            }
-        ]
-    }
 
 ## All Suggested Venue Allocations [/v0.1/{tournament_name}/{round_num}/suggested_venue_allocations]
 
@@ -699,9 +700,29 @@ Delete -> DELETE
     
 + Response 200 (application/json)
 
-    {
-        "errors": [],
-        "data": {
+        {
+            "errors": [],
+            "data": {
+                "allocation": [
+                    {
+                        "grid_id": 0,
+                        "id": 0,
+                        "name": "Venue 1"
+                    },
+                    {
+                        "grid_id": 1,
+                        "id": 1,
+                        "name": "Venue 2"
+                    }
+                ]
+            }
+        }
+
+### Send Venue Allocation [POST]
+
++ Request
+
+        {
             "allocation": [
                 {
                     "grid_id": 0,
@@ -715,26 +736,6 @@ Delete -> DELETE
                 }
             ]
         }
-    }
-
-### Send Venue Allocation [POST]
-
-+ Request
-
-    {
-        "allocation": [
-            {
-                "grid_id": 0,
-                "id": 0,
-                "name": "Venue 1"
-            },
-            {
-                "grid_id": 1,
-                "id": 1,
-                "name": "Venue 2"
-            }
-        ]
-    }
         
 ## Adjudicators [/v0.1/{tournament_name}/adjudicators]
 
@@ -993,7 +994,7 @@ Delete -> DELETE
         {
         }
         
-### Create/Update-if-exist Institution [POST]
+### Create/Update-if-exist Institution [PUT]
 
 + Request (application/json)
         
@@ -1029,7 +1030,7 @@ Delete -> DELETE
         {
         }
        
-## 以下、触ってない by kym
+## NOTOUCHBELOW [/helloworld]
 
 ## Team Results [/v0.1/{tournament_name}/{round_num}/results/teams]
 
@@ -1042,7 +1043,7 @@ Delete -> DELETE
             [
                 {
                     "team_id": 3,
-                    "team_name": KYM1,
+                    "team_name": "KYM1",
                     "win": 1 /* when in BP win must be points(0, 1, 2, 3), when in NA win points be (0, 1:win)*/
                 }
             ]
@@ -1081,8 +1082,7 @@ Delete -> DELETE
             "errors": null,
             "data":
             {
-                "id": 31,
-                "from": 'Content-Type....'
+                "id": 31
             }
         }
         
