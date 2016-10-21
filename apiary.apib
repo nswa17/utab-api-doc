@@ -27,7 +27,7 @@ Delete -> DELETE
 
         {
             "errors": null,
-            "data": 
+            "data":
             {
                 "tournaments": [
                     {
@@ -73,7 +73,7 @@ Delete -> DELETE
 ### Create Tournament [POST]
 
 + Request (application/json)
-        
+
         {
             "args": {
               "force": false
@@ -89,7 +89,7 @@ Delete -> DELETE
                 }
             }
         }
-        
+
 + Response 200 (application/json)
 
         {
@@ -108,11 +108,11 @@ Delete -> DELETE
                 }
             }
         }
-        
+
 ### Create/Update Tournament [PUT]
 
 + Request (application/json)
-        
+
         {
             "name": "test%20tournament",
             "style": "PDA",
@@ -123,7 +123,7 @@ Delete -> DELETE
                 "judge_perf_percent":0
             }
         }
-        
+
 + Response 200 (application/json)
 
         {
@@ -142,9 +142,9 @@ Delete -> DELETE
                 }
             }
         }
-        
+
 ### Update Tournament [PATCH]
-        
+
 + Request (application/json)
 
         {
@@ -173,16 +173,16 @@ Delete -> DELETE
                 "judge_perf_percent":0
             }
         }
-        
+
 ### Delete Tournament [DELETE]
 
 + Request (application/json)
-        
+
         {
             "id": 0,
             "name": "test%20tournament"
         }
-        
+
 + Response 200 (application/json)
 
         {
@@ -196,7 +196,7 @@ Delete -> DELETE
                 "host": "Great TD"
             }
         }
-        
+
 ## Available Styles [/v0.1/styles]
 
 ### List All Styles [GET]
@@ -229,7 +229,7 @@ Delete -> DELETE
             "replies": replies,
             "num_of_replies_per_team": 1
         }
-        
+
 + Response 200 (application/json)
 
         {
@@ -244,32 +244,14 @@ Delete -> DELETE
                 "num_of_replies_per_team": 1
             }
         }
-        
+
 ## Round [/v0.1/{tournament_name}/{round_num}]
 
 ### Get Round Information [GET]
 
-/* status code
-0: before starting round(you can add adjudicators, etc...)
-1: computing matchups
-2: finished computing matchups
-3: computing allocations
-4: finished computing matchups
-5: computing panel allocation
-6: finished computing panel allocation
-7: computing venue allocation
-8: finished computing venue allocation
-9: collecting results
-10: team results processing
-11: team results processed
-12: adj results processing
-13: adj results processed
-14: results processed, prepared to proceed to next round
-*/
-
 + Response 200 (application/json)
 
-        {   
+        {
             "errors":null
             "data":
             {
@@ -300,7 +282,7 @@ Delete -> DELETE
                 ]
             }
         }
-        
+
 ### Send Round Config [PUT]
 
 + Request (application/json)
@@ -309,7 +291,7 @@ Delete -> DELETE
             "constants": (defined above),
             "constants_of_adj": null
         }
-        
+
 + Response 200 (application/json)
 
         {
@@ -320,33 +302,33 @@ Delete -> DELETE
                 "constants_of_adj": null
             }
         }
-        
+
 ### Proceed Round [POST]
 
 + Request (application/json)
-        
-        {   
+
+        {
             "proceed": True /*Boolean*/
             "force_proceed": False /*Boolean. With false, you cannot proceed to next round until all results are collected*/
         }
-        
+
 + Response 200 (application/json)
 
         {
             "errors": [],
             "data":{
-              
+
             }
         ]
-    
+
 ## All Suggested Team Allocations [/v0.1/{tournament_name}/{round_num}/suggested_team_allocations]
 
 + Parameters
     + tournament_name (required, string, `test`)
     + round_num (required, number, `1`)
-    
+
 ### Get All Suggested Team Allocations [GET]
-    
+
 + Response 200 (application/json)
 
         {
@@ -372,7 +354,7 @@ Delete -> DELETE
                                 "grid": [
                                     {
                                         "id": 0,
-                                        "name": "Test Team A" 
+                                        "name": "Test Team A"
                                     },
                                     {
                                         "id": 1,
@@ -385,7 +367,7 @@ Delete -> DELETE
                                 "grid": [
                                     {
                                         "id": 2,
-                                        "name": "Test Team C" 
+                                        "name": "Test Team C"
                                     },
                                     {
                                         "id": 3,
@@ -404,9 +386,9 @@ Delete -> DELETE
 + Parameters
     + tournament_name (required, string, `test`)
     + round_num (required, number, `1`)
-    
+
 ### Get Team Allocation [GET]
-    
+
 + Response 200 (application/json)
 
         {
@@ -483,9 +465,9 @@ Delete -> DELETE
 + Parameters
     + tournament_name (required, string, `test`)
     + round_num (required, number, `1`)
-    
+
 ### Get All Suggested Adudicator Allocations [GET]
-    
+
 + Response 200 (application/json)
 
         {
@@ -553,9 +535,9 @@ Delete -> DELETE
 + Parameters
     + tournament_name (required, string, `test`)
     + round_num (required, number, `1`)
-    
+
 ### Get Adudicator Allocation [GET]
-    
+
 + Response 200 (application/json)
 
         {
@@ -650,9 +632,9 @@ Delete -> DELETE
 + Parameters
     + tournament_name (required, string, `test`)
     + round_num (required, number, `1`)
-    
+
 ### Get All Suggested Venue Allocations [GET]
-    
+
 + Response 200 (application/json)
 
         {
@@ -695,9 +677,9 @@ Delete -> DELETE
 + Parameters
     + tournament_name (required, string, `test`)
     + round_num (required, number, `1`)
-    
+
 ### Get Venue Allocation [GET]
-    
+
 + Response 200 (application/json)
 
         {
@@ -736,7 +718,7 @@ Delete -> DELETE
                 }
             ]
         }
-        
+
 ## Adjudicators [/v0.1/{tournament_name}/adjudicators]
 
 ### List All Adjudicators [GET]
@@ -768,19 +750,19 @@ Delete -> DELETE
 ### Create Adjudicator [POST]
 
 + Request (application/json)
-        
+
         {
         }
-        
+
 + Response 200 (application/json)
-    
+
         {
         }
-        
+
 ### Create/Update-if-exist Adjudicator [PUT]
 
 + Request (application/json)
-        
+
         {
         }
 
@@ -788,16 +770,16 @@ Delete -> DELETE
 
         {
         }
-        
+
 ### Delete An Adjudicator [DELETE]
 
 + Request (application/json)
-        
+
         {
         }
-        
+
 + Response 200 (application/json)
-    
+
         {
         }
 
@@ -827,7 +809,7 @@ Delete -> DELETE
                 "url": team_url
             }
         }
-        
+
 ### Create Team [POST]
 
 + Request (application/json)
@@ -838,7 +820,7 @@ Delete -> DELETE
 + Response 200 (text/plain)
 
         "Thank you, "
-        
+
 ### Create/Update-if-exist Team [PUT]
 
 + Request (application/json)
@@ -849,9 +831,9 @@ Delete -> DELETE
 + Response 200 (text/plain)
 
         "Thank you, "
-        
+
 ### Update Team [PATCH]
-        
+
 + Request (application/json)
 
         {
@@ -861,7 +843,7 @@ Delete -> DELETE
 
         {
         }
-        
+
 ### Delete Team [DELETE]
 
 + Request (application/json)
@@ -873,7 +855,7 @@ Delete -> DELETE
 
         {
         }
-        
+
 ## Venues [/v0.1/{tournament_name}/venues]
 
 ### List All Venues [GET]
@@ -909,31 +891,31 @@ Delete -> DELETE
 ### Create Venue [POST]
 
 + Request (application/json)
-        
+
         {
         }
-        
+
 + Response 200 (application/json)
-    
+
         {
         }
-        
+
 ### Create/Update-if-exist Venue [PUT]
 
 + Request (application/json)
-        
+
         {
         }
-        
+
 + Response 200 (application/json)
-    
+
         {
         }
-        
+
 ### Update Venue [PATCH]
 
 + Request (application/json)
-        
+
         {
         }
 
@@ -942,16 +924,16 @@ Delete -> DELETE
         {
             "hello": adjudicator_id
         }
-        
+
 ### Delete Venue [DELETE]
 
 + Request (application/json)
-        
+
         {
         }
-        
+
 + Response 200 (application/json)
-    
+
         {
         }
 
@@ -960,16 +942,16 @@ Delete -> DELETE
 ### List All Institutions [GET]
 
 + Response 200 (application/json)
-        
+
         {
         }
-        
+
 ## Specific Institution [/v0.1/{tournament_name}/institutions/{institution_id}]
-  
+
 ### Get Institution [GET]
 
 + Response 200 (application/json)
-        
+
         {
             "errors": null,
             "data":
@@ -980,12 +962,12 @@ Delete -> DELETE
                 "teams": [team],
                 "adjudicators": [adjudicator]
             }
-        }  
-      
+        }
+
 ### Create Institution [POST]
 
 + Request (application/json)
-        
+
         {
         }
 
@@ -993,11 +975,11 @@ Delete -> DELETE
 
         {
         }
-        
+
 ### Create/Update-if-exist Institution [PUT]
 
 + Request (application/json)
-        
+
         {
         }
 
@@ -1005,11 +987,11 @@ Delete -> DELETE
 
         {
         }
-        
+
 ### Update Institution [PATCH]
 
 + Request (application/json)
-        
+
         {
         }
 
@@ -1017,11 +999,11 @@ Delete -> DELETE
 
         {
         }
-        
+
 ### Delete Institution [DELETE]
 
 + Request (application/json)
-        
+
         {
         }
 
@@ -1029,7 +1011,7 @@ Delete -> DELETE
 
         {
         }
-       
+
 ## NOTOUCHBELOW [/helloworld]
 
 ## Team Results [/v0.1/{tournament_name}/{round_num}/results/teams]
@@ -1048,7 +1030,7 @@ Delete -> DELETE
                 }
             ]
         }
-        
+
 ## Speaker Results [/v0.1/{tournament_name}/{round_num}/results/speakers]
 
 ### List Speaker Results [GET]
@@ -1058,11 +1040,11 @@ Delete -> DELETE
         [
             speaker_result(defined below)
         ]
-        
+
 ### Send Speaker Result [PUT]
 
 + Request (application/json)
-        
+
         {
             "debater_id": 34,
             "result":
@@ -1075,9 +1057,9 @@ Delete -> DELETE
                 "side": "gov" /* in BP, "og", "oo", "cg", "co". in 2side game, "gov", "opp"
             }
         }
-    
+
 + Response 200 (application/json)
-    
+
         {
             "errors": null,
             "data":
@@ -1085,7 +1067,7 @@ Delete -> DELETE
                 "id": 31
             }
         }
-        
+
 ## Adjudicator Results [/v0.1/{tournament_name}/{round_num}/results/adjudicators]
 
 ### List Adjudicator Results [GET]
@@ -1096,11 +1078,11 @@ Delete -> DELETE
             "errors": null,
             "data": undef
         }
-        
+
 ### Send Adjudicator Result [PUT]
 
 + Request (application/json)
-        
+
         {
             "errors": null,
             "round": 1,/* round1 => 1 */
@@ -1116,20 +1098,20 @@ Delete -> DELETE
                 "comment": "worst judge ever"
             }
         }
-        
+
 + Response 200 (application/json)
-    
+
         {
             "errors": null,
             "data" : null
         }
-        
+
 ## Backups [/v0.1/{tournament_name}/backups]
 
 ### List All Available Backups [GET]
 
 + Response 200 (application/json)
-        
+
         {
             "errors":null,
             "data":
@@ -1146,7 +1128,7 @@ Delete -> DELETE
 ### Back to Particular Point [PUT]
 
 + Request (application/json)
-        
+
         {
             "errors": null,
             "data":
@@ -1154,9 +1136,9 @@ Delete -> DELETE
                 "backup_code": "fda23fds"
             }
         }
-        
+
 + Response 200 (application/json)
-    
+
         {
             "errors": null,
             "data": null
@@ -1165,7 +1147,7 @@ Delete -> DELETE
 ### Save Current State [POST]
 
 + Request (application/json)
-        
+
         {
             "errors": null,
             "data":
@@ -1173,9 +1155,9 @@ Delete -> DELETE
                 "comment": "backupthis"
             }
         }
-        
+
 + Response 200 (application/json)
-        
+
         {
             "errors":null,
             "data":
@@ -1187,13 +1169,13 @@ Delete -> DELETE
                 }
             ]
         }
-        
+
 ## Adjudicator Comments [/v0.1/{tournament_name}/{adjudicator_id}/comments]
 
 ### Download Comments on Adjudicator [GET]
 
 + Response 200 (application/json)
-        
+
         {
             "errors":null,
             "data":
@@ -1218,14 +1200,14 @@ Delete -> DELETE
 become available when rounds finished
 
 ### Download Team Results [GET]
-        
+
 <--! Modify Results [POST] : not supported by current api version -->
 
 + Response 200 (application/json)
-        
+
         {
             "errors": null,
             "data": undef
         }
-        
+
 ## All Adjudicator Results [/v0.1/{tournament_name}/results/adjudicators]

@@ -3,7 +3,22 @@
 
 ## Status
 
-
+### Round status code
+* 0 : before starting round(you can add adjudicators, etc...)
+* 1 : computing matchups
+* 2 : finished computing matchups
+* 3: computing allocations
+* 4: finished computing matchups
+* 5: computing panel allocation
+* 6: finished computing panel allocation
+* 7: computing venue allocation
+* 8: finished computing venue allocation
+* 9: collecting results
+* 10: team results processing
+* 11: team results processed
+* 12: adj results processing
+* 13: adj results processed
+* 14: results processed, prepared to proceed to next round
 
 ## Errors
 
@@ -17,29 +32,26 @@ Application-level errors should return Error Object in error property of respons
 
 ```
 {
-    "error": {
+    "errors": [
         {
-            "statusCode": 0,
-            "statusText": "Tournament Not Found",
+            "status_code": 0,
+            "status_text": "Tournament Not Found",
             "message": "No such tournament name: 'test tournament'",
         }
-    },
+    ],
     "data": null
 }
 ```
 
-#### Importing Data
+### Error List
 
 ##### [0] Tournament Not Found
+<!-- 0 = status code -->
 
 ```
 {
-    "statusCode": 0,
-    "statusText": "Tournament Not Found",
+    "status_code": 0,
+    "status_text": "Tournament Not Found",
     "message": "No such tournament name: 'test tournament'",
 }
 ```
-
-
-
-
