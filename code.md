@@ -1,11 +1,17 @@
 
-# Errors in utab API
+# Error Code and Status Code in utab API
 
-## System Errors
+## Status
+
+
+
+## Errors
+
+### System Errors
 
 Infrastructure-level errors should be represented by HTTP Status Code.
 
-## Application Errors
+### Application Errors
 
 Application-level errors should return Error Object in error property of response.
 
@@ -22,9 +28,9 @@ Application-level errors should return Error Object in error property of respons
 }
 ```
 
-### Importing Data
+#### Importing Data
 
-#### [0] Tournament Not Found
+##### [0] Tournament Not Found
 
 ```
 {
