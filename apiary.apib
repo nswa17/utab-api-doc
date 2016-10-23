@@ -289,10 +289,6 @@ Delete -> DELETE
             },
             "resource_url": ""
         ]
-        
-## Matchup checking [/v0.1/{tournament_name}/{round_num}/check]
-
-preparing
 
 ## All Suggested Team Allocations [/v0.1/{tournament_name}/{round_num}/suggested_team_allocations]
 
@@ -327,7 +323,11 @@ preparing
                     "large_warings": [""],
                     "allocation": [
                         {
-                            "team_ids": [0, 1],
+                            "teams": [0, 1],
+                            "chairs": [],
+                            "panels": [],
+                            "trainees": [],
+                            "venue": null,
                             "warnings": [""]
                         }
                     ],
@@ -337,7 +337,7 @@ preparing
             "resource_url": ""
         }
 
-## Team Allocation [/v0.1/{tournament_name}/{round_num}/team_allocation]
+## Team Allocation [/v0.1/{tournament_name}/{round_num}/suggested_team_allocations/{allocation_id}]
 
 + Parameters
     + tournament_name (required, string, `test`)
@@ -363,7 +363,11 @@ preparing
                 "large_warings": [""],
                 "allocation": [
                     {
-                        "team_ids": [0, 1],
+                        "teams": [0, 1],
+                        "chairs": []
+                        "panels": [],
+                        "trainees": [],
+                        "venue": null,
                         "warnings": [""]
                     }
                 ],
@@ -372,9 +376,19 @@ preparing
             "resource_url": ""
         }
         
-### Modify Team Allocaiton [PATCH]
+### Check Team Allocaiton [PATCH]
 
 + Request (application/json)
+
+        [  
+            {
+                "teams": [0, 1],
+                "chairs": [],
+                "panels": [],
+                "venue": null,
+                "trainees": []
+            }
+        ]
 
 + Response 200 (application/json)
 
@@ -387,9 +401,13 @@ preparing
             "grids":
             [  
                 {
-                    "team_ids": [0, 1]
+                    "teams": [0, 1],
+                    "panels": [],
+                    "venue": null,
+                    "trainees": []
                 }
             ]
+                    "chairs": [],
         }
 
 + Response 200 (application/json)
@@ -423,9 +441,9 @@ preparing
                     "algorithm": "",
                     "indices": {
                         "power_pairing_indicator": 1.0, /* 1 - inf. */
-                        "adapt_indicator": , /*  */
-                        "adapt_indicator2": , /*  */
-                        "adapt_indicator_sd": 10, /* Standard Diviation */
+                        "adopt_indicator": , /*  */
+                        "adopt_indicator2": , /*  */
+                        "adopt_indicator_sd": 10, /* Standard Diviation */
                         "gini_index": 0.0, /* 0-1 */
                         "scatter_indicator": 0.0 /*  */
                     },
@@ -434,22 +452,10 @@ preparing
                     [
                         {
                             "warnings": [{}]
-                            "lattice_id": 0,
-                            "chairs": [
-                                {
-                                    "id": 0,
-                                    "name": "Adj A"
-                                },
-                            "panels": [
-                                {
-                                    "id": 1,
-                                    "name": "Adj B"
-                                },
-                                {
-                                    "id": 2,
-                                    "name": "Adj C"
-                                }
-                            ],
+                            "teams": [0, 1]
+                            "chairs": [0],
+                            "panels": [1, 2],
+                            "venue": null,
                             "trainees": []
                         }
                     ]
@@ -457,8 +463,20 @@ preparing
             ],
             "resource_url": ""
         }
+        
+### Check Adjudicator Allocation [PUT]
 
-## Adjudicator Allocation [/v0.1/{tournament_name}/{round_num}/adjdicator_allocation]
+    [
+        {
+            "teams": [0, 1],
+            "chairs": [0],
+            "panels": [1, 2],
+            "venue": null,
+            "trainees": []
+        }
+    ]
+
+## Adjudicator Allocation [/v0.1/{tournament_name}/{round_num}/suggested_adjdicator_allocations/{allocation_id}]
 
 + Parameters
     + tournament_name (required, string, `test`)
@@ -475,9 +493,9 @@ preparing
                 "algorithm": "",
                 "indices": {
                     "power_pairing_indicator": 1.0, /* 1 - inf. */
-                    "adapt_indicator": , /*  */
-                    "adapt_indicator2": , /*  */
-                    "adapt_indicator_sd": 10, /* Standard Diviation */
+                    "adopt_indicator": , /*  */
+                    "adopt_indicator2": , /*  */
+                    "adopt_indicator_sd": 10, /* Standard Diviation */
                     "gini_index": 0.0, /* 0-1 */
                     "scatter_indicator": 0.0 /*  */
                 },
@@ -485,23 +503,11 @@ preparing
                 "allocation":
                 [
                     {
-                        "warnings": [""]
-                        "lattice_id": 0,
-                        "chairs": [
-                            {
-                                "id": 0,
-                                "name": "Adj A"
-                            },
-                        "panels": [
-                            {
-                                "id": 1,
-                                "name": "Adj B"
-                            },
-                            {
-                                "id": 2,
-                                "name": "Adj C"
-                            }
-                        ],
+                        "warnings": [""],
+                        "teams": [0, 1]
+                        "chairs": [0],
+                        "panels": [1, 2],
+                        "venue": null,
                         "trainees": []
                     }
                 ]
@@ -513,25 +519,12 @@ preparing
 
 + Request
 
-        {
-            "id": 10,
-            "allocation":
+        [
             {
-                "chairs": [
-                    {
-                        "id": 0,
-                        "name": "Adj A"
-                    },
-                "panels": [
-                    {
-                        "id": 1,
-                        "name": "Adj B"
-                    },
-                    {
-                        "id": 2,
-                        "name": "Adj C"
-                    }
-                ],
+                "teams": [0, 1]
+                "chairs": [0],
+                "panels": [1, 2],
+                "venue": null,
                 "trainees": []
             }
         ]
@@ -544,7 +537,13 @@ preparing
     + tournament_name (required, string, `test`)
     + round_num (required, number, `1`)
 
-### Get Venue Allocation [GET]
+### Get Venue Allocation [POST]
+
++ Request (application/json)
+
+        {
+            "args": {"force": false}
+        }
 
 + Response 200 (application/json)
 
@@ -553,32 +552,17 @@ preparing
             "data":
             [
                 {
-                    "lattice_id": 0,
-                    "chairs": [
-                        {
-                            "id": 0,
-                            "name": "Adj A"
-                        },
-                    "panels": [
-                        {
-                            "id": 1,
-                            "name": "Adj B"
-                        },
-                        {
-                            "id": 2,
-                            "name": "Adj C"
-                        }
-                    ],
+                    "teams": [0, 1]
+                    "chairs": [0],
+                    "panels": [1, 2],
                     "trainees": [],
-                    "venue":
-                    {   
-                        "name": '324'
-                        "id": 3
-                    }
+                    "venue": 3 /* venue id */
                 }
             ],
             "resource_url": ""
         }
+        
+### Check Venue Allocation [PUT]
 
 ### Send Venue Allocation [POST]
 
@@ -999,7 +983,7 @@ preparing
                 "team_id": 1,
                 "points": [76, 0, 38.5], /* 0 if he/she has no role */
                 "win": 1 /* in NA, 1=win, 0=lose in BP, it must be win-points the team get */,
-                "opponent_team_ids": [2],
+                "opponent_teams": [2],
                 "side": "gov" /* in BP, "og", "oo", "cg", "co". in 2side game, "gov", "opp"
             }
         }
@@ -1037,7 +1021,7 @@ preparing
                 "chair": True,
                 "adj_id": adj_id, /* id of adj to be evaluated */
                 "point": 8,
-                "team_ids": ::[Integer], /* teams' ids that the adj judged (必要?) */
+                "teams": ::[Integer], /* teams' ids that the adj judged (必要?) */
                 "comment": "worst judge ever",
                 "round": 1
             }
