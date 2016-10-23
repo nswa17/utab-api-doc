@@ -423,13 +423,7 @@ Delete -> DELETE
     + tournament_name (required, string, `test`)
     + round_num (required, number, `1`)
 
-### Get All Suggested Adudicator Allocations [POST]
-
-+ Request (application/json)
-
-        {
-            "args": {"force": false}
-        }
+### Get All Suggested Adudicator Allocations [GET]
 
 + Response 200 (application/json)
 
@@ -531,19 +525,13 @@ Delete -> DELETE
         
 + Response 200 (application/json)
 
-## Venue Allocation [/v0.1/{tournament_name}/{round_num}/venue_allocation]
+## Venue Allocation [/v0.1/{tournament_name}/{round_num}/suggested_venue_allocation]
 
 + Parameters
     + tournament_name (required, string, `test`)
     + round_num (required, number, `1`)
 
-### Get Venue Allocation [POST]
-
-+ Request (application/json)
-
-        {
-            "args": {"force": false}
-        }
+### Get Venue Allocation [GET]
 
 + Response 200 (application/json)
 
@@ -983,9 +971,9 @@ Delete -> DELETE
                 "debater_id": 34,
                 "current_round": 1,/* round1 => 1 */
                 "team_id": 1,
-                "points": [76, 0, 38.5], /* 0 if he/she has no role */
-                "win": 1 /* in NA, 1=win, 0=lose in BP, it must be win-points the team get */,
-                "opponent_teams": [2],
+                "scores": [76, 0, 38.5], /* 0 if he/she has no role */
+                "win_point": 1 /* in NA, 1=win, 0=lose in BP, it must be win-points the team get */,
+                "opponents": [2],
                 "side": "gov" /* in BP, "og", "oo", "cg", "co". in 2side game, "gov", "opp"
             }
         }
@@ -1019,9 +1007,9 @@ Delete -> DELETE
             "from_id": 34, /* sender's id */
             "result":
             {
-                "chair": True, /* if the adj to be evaluated was a chair */
+                "chair": true, /* if the adj to be evaluated was a chair */
                 "adjudicator_id": 2, /* id of adj to be evaluated */
-                "point": 8,
+                "score": 8,
                 "teams": [1, 2], /* teams' ids that the adj judged (必要?) */
                 "comment": "worst judge ever",
                 "round": 1
