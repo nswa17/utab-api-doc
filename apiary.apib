@@ -958,7 +958,7 @@ Delete -> DELETE
             "errors": null,
             [
                 {
-                    "team_id": 3,
+                    "team": 3,
                     "team_name": "KYM1",
                     "win": 1 /* when in BP win must be points(0, 1, 2, 3), when in NA win points be (0, 1:win)*/
                 }
@@ -975,10 +975,11 @@ Delete -> DELETE
 
 + Request (application/json)
 
-        {
-            "debater_id": 34,
+        {   
+            "override": false,
             "result":
             {
+                "debater_id": 34,
                 "current_round": 1,/* round1 => 1 */
                 "team_id": 1,
                 "points": [76, 0, 38.5], /* 0 if he/she has no role */
@@ -1012,20 +1013,19 @@ Delete -> DELETE
 + Request (application/json)
 
         {
-            "errors": null,
-            "data":
+            "override": false,
+            "from": "chair", /* "chair", "panel", or "team" */
+            "from_id": 34, /* sender's id */
+            "from_name": "KOYAMAR", /* sender's name */
+            "chair": True,
+            "result":
             {
-                "from": "chair", /* "chair", "panel", or "team" */
-                "from_id": 34, /* sender's id */
-                "from_name": "KOYAMAR", /* sender's name */
-                "chair": True,
-                "adj_id": adj_id, /* id of adj to be evaluated */
+                "adj_id": 2, /* id of adj to be evaluated */
                 "point": 8,
-                "teams": ::[Integer], /* teams' ids that the adj judged (必要?) */
+                "teams": [1, 2], /* teams' ids that the adj judged (必要?) */
                 "comment": "worst judge ever",
                 "round": 1
             }
-            "resource_url": ""
         }
 
 + Response 200 (application/json)
