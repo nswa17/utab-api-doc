@@ -977,6 +977,7 @@ Delete -> DELETE
 
         {   
             "override": false,
+            "from_id": 3, /* adj id */
             "result":
             {
                 "debater_id": 34,
@@ -1016,11 +1017,10 @@ Delete -> DELETE
             "override": false,
             "from": "chair", /* "chair", "panel", or "team" */
             "from_id": 34, /* sender's id */
-            "from_name": "KOYAMAR", /* sender's name */
-            "chair": True,
             "result":
             {
-                "adj_id": 2, /* id of adj to be evaluated */
+                "chair": True, /* if the adj to be evaluated was a chair */
+                "adjudicator_id": 2, /* id of adj to be evaluated */
                 "point": 8,
                 "teams": [1, 2], /* teams' ids that the adj judged (必要?) */
                 "comment": "worst judge ever",
